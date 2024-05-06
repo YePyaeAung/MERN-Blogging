@@ -1,5 +1,6 @@
 import express from "express";
 import dotenv from "dotenv";
+import AuthRouter from "./routes/AuthRouter.js";
 
 const app = express();
 
@@ -8,9 +9,8 @@ dotenv.config();
 
 const port = process.env.PORT;
 
-app.get("/", (req, res) => {
-    res.json("Testing");
-});
+// route middleware
+app.use("/api", AuthRouter); // 1
 
 app.listen(port, () => {
     console.log(`API is running at port ${port}!`);
