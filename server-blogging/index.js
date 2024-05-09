@@ -18,6 +18,9 @@ mongoose.connect(mongo_url).then(() => {
 
 const port = process.env.PORT;
 
+// middleware
+app.use(express.urlencoded({ extended: false }));
+
 // route middleware
 app.use("/api", AuthRouter);
 
