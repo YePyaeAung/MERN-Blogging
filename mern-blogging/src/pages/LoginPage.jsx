@@ -1,7 +1,9 @@
 import { Link } from "react-router-dom";
 import Master from "./layout/Master";
+import { toast } from "react-toastify";
 
 const LoginPage = () => {
+    toast.error("Error")
     return (
         <Master>
             <h4 className="text-uppercase text-primary text-center mb-4">
