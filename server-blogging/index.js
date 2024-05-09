@@ -3,6 +3,7 @@ import dotenv from "dotenv";
 import AuthRouter from "./routes/AuthRouter.js";
 import mongoose from "mongoose";
 import UserModel from "./models/UserModel.js";
+import { errorJson, successJson } from "./utils/JsonResponse.js";
 
 const app = express();
 
@@ -21,16 +22,12 @@ const port = process.env.PORT;
 app.use("/api", AuthRouter);
 
 // test route
-app.get("/test", async (req, res) => {
-    // const createData = await UserModel.create({
-    //     name: "test",
-    //     email: "test@gmail.com",
-    //     password: "password",
-    // });
-    // res.json(createData);
+app.get("/test/success", async (req, res) => {
+    res.json(successJson("Successful", { data: 1 }));
+});
 
-    const users = await UserModel.find();
-    res.json(users);
+app.get("/test/error", (req, res) => {
+    res.json(errorJson("Failed", { data: 0 }));
 });
 
 app.listen(port, () => {
