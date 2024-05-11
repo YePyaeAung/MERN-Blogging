@@ -4,6 +4,7 @@ import AuthRouter from "./routes/AuthRouter.js";
 import mongoose from "mongoose";
 import UserModel from "./models/UserModel.js";
 import { errorJson, successJson } from "./utils/JsonResponse.js";
+import cookieParser from "cookie-parser";
 
 const app = express();
 
@@ -20,6 +21,7 @@ const port = process.env.PORT;
 
 // middleware
 app.use(express.urlencoded({ extended: false }));
+app.use(cookieParser());
 
 // route middleware
 app.use("/api", AuthRouter);
