@@ -7,12 +7,12 @@ import jwt from "jsonwebtoken";
 export const login = async (req, res) => {
     try {
         // validation process
-        validator
-            .validateAll(req.body, {
-                email: "email | required",
-                password: "required | min:3 | max:20",
-            })
-            .then(async () => {
+        // validator
+        //     .validateAll(req.body, {
+        //         email: "email | required",
+        //         password: "required | min:3 | max:20",
+        //     })
+        //     .then(async () => {
                 const { email, password } = req.body;
                 // check email
                 const user = await UserModel.findOne({ email });
@@ -41,12 +41,12 @@ export const login = async (req, res) => {
                 return res
                     .status(200)
                     .json(successJson("Login Successfully!", access_token));
-            })
-            .catch(error => {
-                return res
-                    .status(400)
-                    .json(errorJson("Validation Failed!", error));
-            });
+            // })
+            // .catch(error => {
+            //     return res
+            //         .status(400)
+            //         .json(errorJson("Validation Failed!", error));
+            // });
     } catch (error) {
         return res.status(500).json(errorJson(error.message, null));
     }

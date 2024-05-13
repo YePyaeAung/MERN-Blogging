@@ -2,9 +2,9 @@ import express from "express";
 import dotenv from "dotenv";
 import AuthRouter from "./routes/AuthRouter.js";
 import mongoose from "mongoose";
-import UserModel from "./models/UserModel.js";
 import { errorJson, successJson } from "./utils/JsonResponse.js";
 import cookieParser from "cookie-parser";
+import cors from "cors";
 
 const app = express();
 
@@ -22,6 +22,7 @@ const port = process.env.PORT;
 // middleware
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
+app.use(cors({ origin: "http://localhost:3000", credentials: true }));
 
 // route middleware
 app.use("/api", AuthRouter);
