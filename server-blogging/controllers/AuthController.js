@@ -4,8 +4,52 @@ import UserModel from "../models/UserModel.js";
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 
-export const login = (req, res) => {
-    res.send("Login Controller");
+export const login = async (req, res) => {
+    try {
+        // validation process
+        validator
+            .validateAll(req.body, {
+                email: "email | required",
+                password: "required | min:3 | max:20",
+            })
+            .then(async () => {
+                const { email, password } = req.body;
+                // check email
+                const user = await UserModel.findOne({ email });
+                if (!user) {
+                    return res
+                        .status(404)
+                        .json(errorJson("Email Not Found!", null));
+                }
+                // check password
+                const checkPassword = bcrypt.compareSync(
+                    password,
+                    user.password
+                );
+                if (!checkPassword) {
+                    return res
+                        .status(401)
+                        .json(errorJson("Wrong Password", null));
+                }
+                // jwt process
+                const secretKey = process.env.JWT_SECRET;
+                const access_token = jwt.sign(
+                    { _id: user._id, name: user.name },
+                    secretKey
+                );
+                res.cookie("access_token", access_token, { httpOnly: true });
+                return res
+                    .status(200)
+                    .json(successJson("Login Successfully!", access_token));
+            })
+            .catch(error => {
+                return res
+                    .status(400)
+                    .json(errorJson("Validation Failed!", error));
+            });
+    } catch (error) {
+        return res.status(500).json(errorJson(error.message, null));
+    }
 };
 
 export const register = async (req, res) => {
