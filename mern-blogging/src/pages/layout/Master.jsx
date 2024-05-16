@@ -85,6 +85,7 @@ const Master = ({ children }) => {
                                     <img
                                         src="https://toka.b-cdn.net/wp-content/uploads/2021/11/3d-aesthetics.png"
                                         className="w-100 rounded"
+                                        alt=""
                                     />
                                     <p className="text-white text-center p-2">
                                         What is PHP
@@ -96,6 +97,7 @@ const Master = ({ children }) => {
                                     <img
                                         src="https://toka.b-cdn.net/wp-content/uploads/2022/01/black-man-looking-stock-market-exchange-information-computer-crypto-currency.png"
                                         className="w-100 rounded"
+                                        alt=""
                                     />
                                     <p className="text-white text-center p-2">
                                         What is PHP
@@ -107,6 +109,7 @@ const Master = ({ children }) => {
                                     <img
                                         src="https://toka.b-cdn.net/wp-content/uploads/2022/01/black-man-looking-stock-market-exchange-information-computer-crypto-currency.png"
                                         className="w-100 rounded"
+                                        alt=""
                                     />
                                     <p className="text-white text-center p-2">
                                         What is PHP
@@ -118,6 +121,7 @@ const Master = ({ children }) => {
                                     <img
                                         src="https://toka.b-cdn.net/wp-content/uploads/2021/11/3d-aesthetics.png"
                                         className="w-100 rounded"
+                                        alt=""
                                     />
                                     <p className="text-white text-center p-2">
                                         What is PHP
@@ -134,6 +138,7 @@ const Master = ({ children }) => {
                                     <img
                                         src="https://toka.b-cdn.net/wp-content/uploads/2021/11/3d-aesthetics.png"
                                         className="w-100 rounded"
+                                        alt=""
                                     />
                                     <p className="text-white text-center p-2">
                                         What is PHP
@@ -145,6 +150,7 @@ const Master = ({ children }) => {
                                     <img
                                         src="https://toka.b-cdn.net/wp-content/uploads/2022/01/black-man-looking-stock-market-exchange-information-computer-crypto-currency.png"
                                         className="w-100 rounded"
+                                        alt=""
                                     />
                                     <p className="text-white text-center p-2">
                                         What is PHP
@@ -156,6 +162,7 @@ const Master = ({ children }) => {
                                     <img
                                         src="https://toka.b-cdn.net/wp-content/uploads/2022/01/black-man-looking-stock-market-exchange-information-computer-crypto-currency.png"
                                         className="w-100 rounded"
+                                        alt=""
                                     />
                                     <p className="text-white text-center p-2">
                                         What is PHP
@@ -167,6 +174,7 @@ const Master = ({ children }) => {
                                     <img
                                         src="https://toka.b-cdn.net/wp-content/uploads/2021/11/3d-aesthetics.png"
                                         className="w-100 rounded"
+                                        alt=""
                                     />
                                     <p className="text-white text-center p-2">
                                         What is PHP
