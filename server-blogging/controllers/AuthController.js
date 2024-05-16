@@ -5,50 +5,50 @@ import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 
 export const login = async (req, res) => {
+    // validation process
+
+    const validateLoginInput = async payload => {
+        const rules = {
+            email: "email | required",
+            password: "required | min:3 | max:20",
+        };
+        const messages = {
+            "name.required": "Please choose a unique username for your account",
+            "email.required": "Enter a valid email address.",
+            "password.required": "Enter a valid password.",
+            "password.min": "The password must be at least 3 characters long.",
+        };
+        await validator.validateAll(payload, rules, messages);
+    };
+
+    const generateToken = (userId, userName) => {
+        const secretKey = process.env.JWT_SECRET;
+        return jwt.sign({ _id: userId, name: userName }, secretKey);
+    };
+
     try {
         // validation process
-        // validator
-        //     .validateAll(req.body, {
-        //         email: "email | required",
-        //         password: "required | min:3 | max:20",
-        //     })
-        //     .then(async () => {
-                const { email, password } = req.body;
-                // check email
-                const user = await UserModel.findOne({ email });
-                if (!user) {
-                    return res
-                        .status(404)
-                        .json(errorJson("Email Not Found!", null));
-                }
-                // check password
-                const checkPassword = bcrypt.compareSync(
-                    password,
-                    user.password
-                );
-                if (!checkPassword) {
-                    return res
-                        .status(401)
-                        .json(errorJson("Wrong Password", null));
-                }
-                // jwt process
-                const secretKey = process.env.JWT_SECRET;
-                const access_token = jwt.sign(
-                    { _id: user._id, name: user.name },
-                    secretKey
-                );
-                res.cookie("access_token", access_token, { httpOnly: true });
-                return res
-                    .status(200)
-                    .json(successJson("Login Successfully!", access_token));
-            // })
-            // .catch(error => {
-            //     return res
-            //         .status(400)
-            //         .json(errorJson("Validation Failed!", error));
-            // });
+        await validateLoginInput(req.body);
+
+        const { email, password } = req.body;
+        // check user email
+        const user = await UserModel.findOne({ email });
+        if (!user) {
+            return res.json(errorJson("Email Not Found!", null));
+        }
+        // check password
+        const checkPassword = bcrypt.compareSync(password, user.password);
+        if (!checkPassword) {
+            return res.json(errorJson("Wrong Password!", null));
+        }
+        // jwt process
+        const access_token = generateToken(user._id, user.name);
+        res.cookie("access_token", access_token, { httpOnly: true });
+        return res
+            .status(200)
+            .json(successJson("Login Successfully!", user));
     } catch (error) {
-        return res.status(500).json(errorJson(error.message, null));
+        return res.json(errorJson("Validation Failed!", error));
     }
 };
 
