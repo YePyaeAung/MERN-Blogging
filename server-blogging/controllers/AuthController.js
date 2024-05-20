@@ -4,6 +4,17 @@ import UserModel from "../models/UserModel.js";
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 
+export const checkAuth = (req, res) => {
+    const { access_token } = req.cookies;
+    const secretKey = process.env.JWT_SECRET;
+    jwt.verify(access_token, secretKey, (err, data) => {
+        if (err) {
+            return res.json(errorJson("Not Auth!", err));
+        }
+        return res.json(successJson("Authentication Successful!", data));
+    });
+};
+
 export const login = async (req, res) => {
     // validation process
 
@@ -44,9 +55,13 @@ export const login = async (req, res) => {
         // jwt process
         const access_token = generateToken(user._id, user.name);
         res.cookie("access_token", access_token, { httpOnly: true });
+        // remove user email & password response
+        const userData = { ...user.toObject() };
+        delete userData.email;
+        delete userData.password;
         return res
             .status(200)
-            .json(successJson("Login Successfully!", user));
+            .json(successJson("Login Successfully!", userData));
     } catch (error) {
         return res.json(errorJson("Validation Failed!", error));
     }
