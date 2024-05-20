@@ -11,15 +11,13 @@ export const AuthContextProvider = ({ children }) => {
     useEffect(() => {
         (async () => {
             const response = await axios.get("/checkAuth");
-            // console.log(response.data.success);
             if (response.data.success) {
                 setAuth(true);
-                // console.log(auth);
                 setAuthUser(await response.data.data);
                 return false;
             }
         })();
-    }, []);
+    }, [auth]);
 
     return (
         <AuthContext.Provider value={{ auth, setAuth, authUser, setAuthUser }}>

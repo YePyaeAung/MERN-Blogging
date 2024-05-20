@@ -1,11 +1,25 @@
 import { useContext } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import AuthContext from "../contexts/AuthContext";
+import axios from "axios";
+import { toast } from "react-toastify";
+import { toastOptions } from "../utils/ToastOptions";
 
 const MenuBar = () => {
-    const { auth, authUser } = useContext(AuthContext);
-    console.log(auth);
-    console.log(authUser);
+    const { auth, setAuth, authUser, setAuthUser } = useContext(AuthContext);
+
+    const navigate = useNavigate();
+
+    const logout = async () => {
+        const response = await axios.post("/logout");
+        if (response.data.success) {
+            setAuth(false);
+            setAuthUser(null);
+            toast.success(response.data.message, toastOptions);
+            return navigate("/login");
+        }
+    };
+
     return (
         <>
             {auth ? (
@@ -16,9 +30,12 @@ const MenuBar = () => {
                     >
                         Profile ({authUser.name})
                     </Link>
-                    <Link to={"/logout"} className="btn btn-primary text-white">
+                    <button
+                        onClick={logout}
+                        className="btn btn-primary text-white"
+                    >
                         Logout
-                    </Link>
+                    </button>
                 </>
             ) : (
                 <>
