@@ -117,3 +117,8 @@ export const register = async (req, res) => {
         return res.status(500).json(errorJson(error.message, null));
     }
 };
+
+export const logout = (req, res) => {
+    res.clearCookie("access_token");
+    res.json(successJson("Logout Successfully!", null));
+};
