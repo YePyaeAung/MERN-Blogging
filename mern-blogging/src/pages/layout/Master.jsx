@@ -1,4 +1,4 @@
-import { Link } from "react-router-dom";
+import MenuBar from "../../components/MenuBar";
 
 /* eslint-disable react/prop-types */
 const Master = ({ children }) => {
@@ -14,18 +14,8 @@ const Master = ({ children }) => {
                 </div>
                 <div className="col-4">
                     <div className="bg-card p-3">
-                        <Link
-                            to={"/login"}
-                            className="btn btn-primary text-white"
-                        >
-                            Login
-                        </Link>
-                        <Link
-                            to={"/register"}
-                            className="btn btn-primary text-white"
-                        >
-                            Register
-                        </Link>
+                        {/* Menu */}
+                        <MenuBar />
                     </div>
                     <div className="bg-card p-3 mt-4">
                         <h5 className="text-primary">Tags</h5>

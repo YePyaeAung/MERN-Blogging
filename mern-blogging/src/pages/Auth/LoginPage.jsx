@@ -1,10 +1,11 @@
 import { Link, useNavigate } from "react-router-dom";
 import Master from "../layout/Master";
 import axios from "axios";
-import { useState } from "react";
+import { useContext, useState } from "react";
 import { toast } from "react-toastify";
 import { toastOptions } from "../../utils/ToastOptions.js";
 import Loader from "../../components/Loader.jsx";
+import AuthContext from "../../contexts/AuthContext.jsx";
 
 const LoginPage = () => {
     const [email, setEmail] = useState("");
@@ -13,16 +14,19 @@ const LoginPage = () => {
 
     const navigate = useNavigate();
 
+    const { setAuth } = useContext(AuthContext);
+
     const handleLogin = async () => {
         try {
             setIsLoading(true);
             const response = await axios.post("/login", { email, password });
             setIsLoading(false);
-            if (response.data.success == true) {
+
+            if (response.data.success) {
+                setAuth(true);
                 toast.success(`Welcome ${response.data.data.name}`);
                 return navigate("/");
-            }
-            if (response.data.data == null) {
+            } else if (response.data.data == null) {
                 return toast.error(response.data.message, toastOptions);
             } else {
                 // validation errors
