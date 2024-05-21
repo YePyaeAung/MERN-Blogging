@@ -14,7 +14,7 @@ const MenuBar = () => {
         const response = await axios.post("/logout");
         if (response.data.success) {
             setAuth(false);
-            setAuthUser(null);
+            setAuthUser({});
             toast.success(response.data.message, toastOptions);
             return navigate("/login");
         }

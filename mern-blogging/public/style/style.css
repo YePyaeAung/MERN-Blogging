@@ -14,3 +14,12 @@ body {
 .bx {
   font-size: 20px;
 }
+
+.custom-quill {
+    width: 100%;  /* Set your desired width */
+    height: 250px; /* Set your desired height */
+}
+
+.marginTop {
+    margin-top: 4.5rem;
+}

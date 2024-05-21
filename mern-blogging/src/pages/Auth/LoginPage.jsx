@@ -24,7 +24,7 @@ const LoginPage = () => {
 
             if (response.data.success) {
                 setAuth(true);
-                toast.success(`Welcome ${response.data.data.name}`);
+                toast.success(`Welcome ${response.data.data.name}`, toastOptions);
                 return navigate("/");
             } else if (response.data.data == null) {
                 return toast.error(response.data.message, toastOptions);
@@ -82,7 +82,7 @@ const LoginPage = () => {
                 <div className="text-right">
                     <button
                         type="submit"
-                        className="btn btn-primary w-25 d-flex justify-content-center align-items-center"
+                        className="btn btn-primary w-25"
                         disabled={isLoading}
                     >
                         {isLoading ? (
