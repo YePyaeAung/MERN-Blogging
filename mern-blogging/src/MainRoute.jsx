@@ -5,6 +5,8 @@ import LoginPage from "./pages/Auth/LoginPage";
 import { ToastContainer } from "react-toastify";
 import { AuthContextProvider } from "./contexts/AuthContext";
 import ProfilePage from "./pages/ProfilePage";
+import RedirectIfNotAuth from "./pages/RouteMiddleware/RedirectIfNotAuth";
+import RedirectIfAuth from "./pages/RouteMiddleware/RedirectIfAuth";
 
 const MainRoute = () => {
     return (
@@ -12,9 +14,30 @@ const MainRoute = () => {
             <AuthContextProvider>
                 <Routes>
                     <Route path="/" element={<HomePage />} />
-                    <Route path="/register" element={<RegisterPage />} />
-                    <Route path="/login" element={<LoginPage />} />
-                    <Route path="/profile" element={<ProfilePage />} />
+                    <Route
+                        path="/register"
+                        element={
+                            <RedirectIfAuth>
+                                <RegisterPage />
+                            </RedirectIfAuth>
+                        }
+                    />
+                    <Route
+                        path="/login"
+                        element={
+                            <RedirectIfAuth>
+                                <LoginPage />
+                            </RedirectIfAuth>
+                        }
+                    />
+                    <Route
+                        path="/profile"
+                        element={
+                            <RedirectIfNotAuth>
+                                <ProfilePage />
+                            </RedirectIfNotAuth>
+                        }
+                    />
                 </Routes>
             </AuthContextProvider>
             <ToastContainer />

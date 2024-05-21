@@ -20,25 +20,25 @@ const ProfilePage = () => {
         input: provided => ({
             ...provided,
             backgroundColor: "#15171F",
-            color: "white", // Ensure text is visible against the black background
+            color: "#8595A6", // Ensure text is visible against the black background
         }),
         multiValue: provided => ({
             ...provided,
             backgroundColor: "#15171F",
-            color: "white",
+            color: "#8595A6",
         }),
         control: provided => ({
             ...provided,
             backgroundColor: "#15171F",
-            color: "white",
+            color: "#8595A6",
         }),
         placeholder: provided => ({
             ...provided,
-            color: "white",
+            color: "#8595A6",
         }),
         singleValue: provided => ({
             ...provided,
-            color: "white",
+            color: "#8595A6",
         }),
     };
 
