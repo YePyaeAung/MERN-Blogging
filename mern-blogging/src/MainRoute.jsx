@@ -4,6 +4,7 @@ import RegisterPage from "./pages/Auth/RegisterPage";
 import LoginPage from "./pages/Auth/LoginPage";
 import { ToastContainer } from "react-toastify";
 import { AuthContextProvider } from "./contexts/AuthContext";
+import ProfilePage from "./pages/ProfilePage";
 
 const MainRoute = () => {
     return (
@@ -13,6 +14,7 @@ const MainRoute = () => {
                     <Route path="/" element={<HomePage />} />
                     <Route path="/register" element={<RegisterPage />} />
                     <Route path="/login" element={<LoginPage />} />
+                    <Route path="/profile" element={<ProfilePage />} />
                 </Routes>
             </AuthContextProvider>
             <ToastContainer />
