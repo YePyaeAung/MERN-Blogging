@@ -2,19 +2,22 @@ import Master from "./layout/Master";
 import Select from "react-select";
 import ReactQuill from "react-quill";
 import "react-quill/dist/quill.snow.css";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import axios from "axios";
 
 const ProfilePage = () => {
-    const tags = [
-        { value: "chocolate", label: "Chocolate" },
-        { value: "strawberry", label: "Strawberry" },
-        { value: "vanilla", label: "Vanilla" },
-    ];
-    const languages = [
-        { value: "php", label: "PHP" },
-        { value: "javascript", label: "JavaScript" },
-        { value: "python", label: "Python" },
-    ];
+    const [tags, setTags] = useState([]);
+    const [languages, setLanguages] = useState([]);
+
+    const getTagsAndLanguages = async () => {
+        const data = await axios.get("/tags-languages");
+        setTags(await data.data.data.tags);
+        setLanguages(await data.data.data.languages);
+    };
+
+    useEffect(() => {
+        getTagsAndLanguages();
+    }, []);
 
     const customStyles = {
         input: provided => ({
