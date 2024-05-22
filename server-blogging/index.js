@@ -1,6 +1,7 @@
 import express from "express";
 import dotenv from "dotenv";
 import AuthRouter from "./routes/AuthRouter.js";
+import ArticleRouter from "./routes/ArticleRouter.js";
 import mongoose from "mongoose";
 import { errorJson, successJson } from "./utils/JsonResponse.js";
 import cookieParser from "cookie-parser";
@@ -32,6 +33,7 @@ app.use(cors({ origin: "http://localhost:3000", credentials: true }));
 
 // route middleware
 app.use("/api", AuthRouter);
+app.use("/api", ArticleRouter);
 
 // test route
 app.get("/test/success", async (req, res) => {
