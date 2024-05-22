@@ -13,9 +13,14 @@ dotenv.config();
 
 // DB Connection
 const mongo_url = process.env.MONGO;
-mongoose.connect(mongo_url).then(() => {
-    console.log("Database Connected!");
-});
+(async () => {
+    try {
+        await mongoose.connect(mongo_url);
+        console.log("Database Connected!");
+    } catch (error) {
+        console.log(error.message);
+    }
+})();
 
 const port = process.env.PORT;
 
