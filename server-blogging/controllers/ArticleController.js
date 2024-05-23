@@ -1,3 +1,5 @@
+import slug from "slug";
+import ArticleModel from "../models/ArticleModel.js";
 import LanguageModel from "../models/LanguageModel.js";
 import TagModel from "../models/TagModel.js";
 import { errorJson, successJson } from "../utils/JsonResponse.js";
@@ -35,19 +37,44 @@ export const all = (req, res) => {
     res.json("retrieve request");
 };
 
-export const store = (req, res) => {
+export const store = async (req, res) => {
     try {
         const { files, body } = req;
         // upload image
         const fileName = files.image.name;
         const filePath = "public/images/" + fileName;
-        files.image.mv(filePath, err => {
-            console.log(err);
-        });
+        files.image.mv(filePath);
         // prepare for tags
+        const tags = JSON.parse(body.selectedTags);
+        const tagsQuery = [];
+        tags.map(tag => {
+            tagsQuery.push({ slug: tag.value });
+        });
+        const findTags = await TagModel.find({
+            $or: tagsQuery,
+        });
         // prepare for languages
+        const languages = JSON.parse(body.selectedLanguages);
+        const languagesQuery = [];
+        languages.map(language => {
+            languagesQuery.push({ slug: language.value });
+        });
+        const findLanguages = await LanguageModel.find({
+            $or: languagesQuery,
+        });
         // article store
-    } catch (error) {}
+        const article = await ArticleModel.create({
+            slug: slug(body.title),
+            title: body.title,
+            image: fileName,
+            tags: findTags,
+            languages: findLanguages,
+            description: body.description,
+        });
+        res.json(successJson("Article Created!", article));
+    } catch (error) {
+        res.json(errorJson(error.message, null));
+    }
 };
 
 export const update = (req, res) => {
