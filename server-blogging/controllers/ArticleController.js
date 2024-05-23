@@ -30,3 +30,19 @@ export const getTagsAndLanguages = async (req, res) => {
         return res.json(errorJson(error.message, null));
     }
 };
+
+export const all = (req, res) => {
+    res.json("retrieve request");
+};
+
+export const store = (req, res) => {
+    res.json("store request");
+};
+
+export const update = (req, res) => {
+    res.json("update request");
+};
+
+export const destroy = (req, res) => {
+    res.json("delete request");
+};

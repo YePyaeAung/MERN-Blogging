@@ -10,7 +10,7 @@ const ProfilePage = () => {
     const [languages, setLanguages] = useState([]);
 
     const getTagsAndLanguages = async () => {
-        const data = await axios.get("/tags-languages");
+        const data = await axios.get("/auth/article/tags-languages");
         setTags(await data.data.data.tags);
         setLanguages(await data.data.data.languages);
     };
