@@ -19,38 +19,13 @@ const ProfilePage = () => {
         getTagsAndLanguages();
     }, []);
 
-    const customStyles = {
-        input: provided => ({
-            ...provided,
-            backgroundColor: "#15171F",
-            color: "#8595A6", // Ensure text is visible against the black background
-        }),
-        multiValue: provided => ({
-            ...provided,
-            backgroundColor: "#15171F",
-            color: "#8595A6",
-        }),
-        control: provided => ({
-            ...provided,
-            backgroundColor: "#15171F",
-            color: "#8595A6",
-        }),
-        placeholder: provided => ({
-            ...provided,
-            color: "#8595A6",
-        }),
-        singleValue: provided => ({
-            ...provided,
-            color: "#8595A6",
-        }),
-    };
-
     const [value, setValue] = useState("");
 
     return (
         <Master>
             <button className="btn btn-dark">Create New Article</button>
             <button className="btn btn-dark">My Articles</button>
+            <button className="btn btn-dark">Account Setting</button>
             <div className="container mt-3">
                 <h3 className="text-primary">Create New Article</h3>
                 <div className="row mt-3">
@@ -77,7 +52,6 @@ const ProfilePage = () => {
                             options={tags}
                             isMulti
                             placeholder="Select Tags"
-                            styles={customStyles}
                         />
                     </div>
                     <div className="col-6 mt-3">
@@ -85,7 +59,6 @@ const ProfilePage = () => {
                             options={languages}
                             isMulti
                             placeholder="Select Languages"
-                            styles={customStyles}
                         />
                     </div>
                     <div className="col-12 mt-3">
