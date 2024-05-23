@@ -6,6 +6,7 @@ import mongoose from "mongoose";
 import { errorJson, successJson } from "./utils/JsonResponse.js";
 import cookieParser from "cookie-parser";
 import cors from "cors";
+import fileUpload from "express-fileupload";
 
 const app = express();
 
@@ -30,6 +31,8 @@ app.use(express.urlencoded({ extended: false }));
 app.use(express.json());
 app.use(cookieParser());
 app.use(cors({ origin: "http://localhost:3000", credentials: true }));
+app.use(fileUpload());
+app.use(express.static("public"))
 
 // route middleware
 app.use("/api", AuthRouter);

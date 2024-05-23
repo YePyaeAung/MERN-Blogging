@@ -36,7 +36,18 @@ export const all = (req, res) => {
 };
 
 export const store = (req, res) => {
-    res.json("store request");
+    try {
+        const { files, body } = req;
+        // upload image
+        const fileName = files.image.name;
+        const filePath = "public/images/" + fileName;
+        files.image.mv(filePath, err => {
+            console.log(err);
+        });
+        // prepare for tags
+        // prepare for languages
+        // article store
+    } catch (error) {}
 };
 
 export const update = (req, res) => {
