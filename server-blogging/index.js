@@ -33,7 +33,7 @@ app.use(cors({ origin: "http://localhost:3000", credentials: true }));
 
 // route middleware
 app.use("/api", AuthRouter);
-app.use("/api", ArticleRouter);
+app.use("/api/auth/article", ArticleRouter);
 
 // test route
 app.get("/test/success", async (req, res) => {
