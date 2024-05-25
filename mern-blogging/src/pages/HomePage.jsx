@@ -10,20 +10,21 @@ const HomePage = () => {
                     className="form-control rounded bg-card"
                 />
             </div>
-            {/* first blog */}
+            {/* First blog */}
             <div className="mt-4">
                 <div className="d-flex rounded bg-card">
                     <img
                         style={{ width: 400 }}
                         src="https://toka.b-cdn.net/wp-content/uploads/2022/01/black-man-looking-stock-market-exchange-information-computer-crypto-currency.png"
                         className="rounded"
+                        alt="Fullstack blog"
                     />
                     <div className="p-3">
                         <b className="text-warning">Fullstack</b>
                         <h3 className="text-white">
                             What is MERN Fullstack App?
                         </h3>
-                        <p>
+                        <p className="text-white">
                             MERN Stackဆိုတာဘာလည်း ဘယ်လိုအလုပ်လုပ်တာလည်းအပြင်
                             သူ့ကိုလေ့လာဖို့ road map ပါ
                             တစ်ခါတည်းရှင်းပြပေးသွားမှာဖြစ်ပါတယ်။ MERN
@@ -36,13 +37,13 @@ const HomePage = () => {
                         </p>
                         <div className="d-flex justify-content-between">
                             <div>
-                                <a href className="text-muted d-flex">
+                                <a href="#" className="text-muted d-flex">
                                     <i className="bx bx-user mr-2" />
                                     <small>Aung Aung</small>
                                 </a>
                             </div>
                             <div>
-                                <a href className="text-muted d-flex">
+                                <a href="#" className="text-muted d-flex">
                                     <i className="bx bx-happy-heart-eyes mr-2" />
                                     <small>6785</small>
                                 </a>
@@ -53,140 +54,140 @@ const HomePage = () => {
             </div>
             <div className="mt-4 blog-list">
                 <div className="row p-0 m-0">
-                    <div className="col-6  pl-0 mt-4">
+                    <div className="col-6 pl-0 mt-4">
                         <div className="rounded bg-card">
                             <img
                                 className="rounded"
                                 src="images/1.webp"
                                 style={{ width: "100%" }}
-                                alt
+                                alt="MERN Stack"
                             />
                             <div className="p-4 text-white">
                                 <h4 className="text-white">
-                                    MERN Stack တစ်ယောက်ဖြစ်ဖို့{" "}
+                                    MERN Stack တစ်ယောက်ဖြစ်ဖို့
                                 </h4>
                                 <div className="d-flex justify-content-between">
                                     <button className="btn btn-dark d-flex">
                                         <span className="text-success mr-2">
                                             <i className="bx bx-happy-heart-eyes" />
-                                        </span>{" "}
+                                        </span>
                                         100
                                     </button>
                                     <button className="btn btn-dark d-flex">
                                         <span className="text-success mr-2">
                                             <i className="bx bx-heart" />
-                                        </span>{" "}
+                                        </span>
                                         100
                                     </button>
                                     <button className="btn btn-dark d-flex">
                                         <span className="text-success mr-2">
                                             <i className="bx bx-message-square-dots" />
-                                        </span>{" "}
+                                        </span>
                                         100
                                     </button>
                                 </div>
                             </div>
                         </div>
                     </div>
-                    <div className="col-6  pl-0 mt-4">
+                    <div className="col-6 pl-0 mt-4">
                         <div className="rounded bg-card">
                             <img
                                 className="rounded"
                                 src="images/2.webp"
                                 style={{ width: "100%" }}
-                                alt
+                                alt="Laravel Developer"
                             />
                             <div className="p-4 text-white">
                                 <h4 className="text-white">
-                                    Laravel Developer တစ်ယောက်ဖြစ်ဖို့{" "}
+                                    Laravel Developer တစ်ယောက်ဖြစ်ဖို့
                                 </h4>
                                 <div className="d-flex justify-content-between">
                                     <button className="btn btn-dark d-flex">
                                         <span className="text-success mr-2">
                                             <i className="bx bx-happy-heart-eyes" />
-                                        </span>{" "}
+                                        </span>
                                         100
                                     </button>
                                     <button className="btn btn-dark d-flex">
                                         <span className="text-success mr-2">
                                             <i className="bx bx-heart" />
-                                        </span>{" "}
+                                        </span>
                                         100
                                     </button>
                                     <button className="btn btn-dark d-flex">
                                         <span className="text-success mr-2">
                                             <i className="bx bx-message-square-dots" />
-                                        </span>{" "}
+                                        </span>
                                         100
                                     </button>
                                 </div>
                             </div>
                         </div>
                     </div>
-                    <div className="col-6  pl-0 mt-4">
+                    <div className="col-6 pl-0 mt-4">
                         <div className="rounded bg-card">
                             <img
                                 className="rounded"
                                 src="images/3.webp"
                                 style={{ width: "100%" }}
-                                alt
+                                alt="Laravel Developer"
                             />
                             <div className="p-4 text-white">
                                 <h4 className="text-white">
-                                    Laravel Developer တစ်ယောက်ဖြစ်ဖို့{" "}
+                                    Laravel Developer တစ်ယောက်ဖြစ်ဖို့
                                 </h4>
                                 <div className="d-flex justify-content-between">
                                     <button className="btn btn-dark d-flex">
                                         <span className="text-success mr-2">
                                             <i className="bx bx-happy-heart-eyes" />
-                                        </span>{" "}
+                                        </span>
                                         100
                                     </button>
                                     <button className="btn btn-dark d-flex">
                                         <span className="text-success mr-2">
                                             <i className="bx bx-heart" />
-                                        </span>{" "}
+                                        </span>
                                         100
                                     </button>
                                     <button className="btn btn-dark d-flex">
                                         <span className="text-success mr-2">
                                             <i className="bx bx-message-square-dots" />
-                                        </span>{" "}
+                                        </span>
                                         100
                                     </button>
                                 </div>
                             </div>
                         </div>
                     </div>
-                    <div className="col-6  pl-0 mt-4">
+                    <div className="col-6 pl-0 mt-4">
                         <div className="rounded bg-card">
                             <img
                                 className="rounded"
                                 src="images/5.webp"
                                 style={{ width: "100%" }}
-                                alt
+                                alt="Laravel Developer"
                             />
                             <div className="p-4 text-white">
                                 <h4 className="text-white">
-                                    Laravel Developer တစ်ယောက်ဖြစ်ဖို့{" "}
+                                    Laravel Developer တစ်ယောက်ဖြစ်ဖို့
                                 </h4>
                                 <div className="d-flex justify-content-between">
                                     <button className="btn btn-dark d-flex">
                                         <span className="text-success mr-2">
                                             <i className="bx bx-happy-heart-eyes" />
-                                        </span>{" "}
+                                        </span>
                                         100
                                     </button>
                                     <button className="btn btn-dark d-flex">
                                         <span className="text-success mr-2">
                                             <i className="bx bx-heart" />
-                                        </span>{" "}
+                                        </span>
                                         100
                                     </button>
                                     <button className="btn btn-dark d-flex">
                                         <span className="text-success mr-2">
                                             <i className="bx bx-message-square-dots" />
-                                        </span>{" "}
+                                        </span>
                                         100
                                     </button>
                                 </div>
