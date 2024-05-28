@@ -1,12 +1,9 @@
 const Loader = () => {
     return (
-        <div>
-            <span
-                className="spinner-border spinner-border-sm mr-3"
-                role="status"
-                aria-hidden="true"
-            ></span>
-            Logging In...
+        <div className="d-flex justify-content-center vh-100 align-items-center">
+            <div className="spinner-border" role="status">
+                <span className="sr-only">Loading...</span>
+            </div>
         </div>
     );
 };

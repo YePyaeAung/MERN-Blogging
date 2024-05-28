@@ -1,26 +1,32 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
+import Loader from "../../components/Loader";
 
 const ArticleListsPage = () => {
     const [page, setPage] = useState(1);
     const [articles, setArticles] = useState([]);
     const [isLoading, setIsLoading] = useState(true);
+    const [totalPage, setTotalPage] = useState(null);
 
     const getArticles = async () => {
+        setIsLoading(true);
         const { data } = await axios.get(`/auth/article?page=${page}`);
+        setTimeout(() => {
         setArticles(data.data.articles);
         setIsLoading(false);
+        setTotalPage(data.data.totalPage);
+        }, 2000);
     };
 
     useEffect(() => {
         getArticles();
-    }, []);
+    }, [page]);
 
     return (
         <>
             {isLoading ? (
-                <span>Loading...</span>
+                <Loader />
             ) : (
                 <>
                     <div className="row mt-5">
@@ -80,7 +86,11 @@ const ArticleListsPage = () => {
                     {/* load more button */}
                     <div className="col-12 mt-5">
                         <div className="d-flex justify-content-end">
-                            <button className="btn btn-primary">
+                            <button
+                                disabled={page >= totalPage ? true : false}
+                                className="btn btn-primary"
+                                onClick={() => setPage(page + 1)}
+                            >
                                 Load More
                             </button>
                         </div>

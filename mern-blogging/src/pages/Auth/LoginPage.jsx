@@ -4,8 +4,8 @@ import axios from "axios";
 import { useContext, useState } from "react";
 import { toast } from "react-toastify";
 import { toastOptions } from "../../utils/ToastOptions.js";
-import Loader from "../../components/Loader.jsx";
 import AuthContext from "../../contexts/AuthContext.jsx";
+import LoginLoader from "../../components/LoginLoader.jsx";
 
 const LoginPage = () => {
     const [email, setEmail] = useState("");
@@ -24,7 +24,10 @@ const LoginPage = () => {
 
             if (response.data.success) {
                 setAuth(true);
-                toast.success(`Welcome ${response.data.data.name}`, toastOptions);
+                toast.success(
+                    `Welcome ${response.data.data.name}`,
+                    toastOptions
+                );
                 return navigate("/");
             } else if (response.data.data == null) {
                 return toast.error(response.data.message, toastOptions);
@@ -87,7 +90,7 @@ const LoginPage = () => {
                     >
                         {isLoading ? (
                             <>
-                                <Loader />
+                                <LoginLoader />
                             </>
                         ) : (
                             <>Login</>
