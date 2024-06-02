@@ -89,6 +89,16 @@ export const store = async (req, res) => {
     }
 };
 
+export const edit = async (req, res) => {
+    try {
+        const { slug } = req.params;
+        const article = await ArticleModel.findOne({ slug });
+        res.json(successJson("Get Article Successfully!", article));
+    } catch (error) {
+        res.json(errorJson(error.message, null));
+    }
+};
+
 export const update = (req, res) => {
     res.json("update request");
 };

@@ -7,6 +7,7 @@ import { AuthContextProvider } from "./contexts/AuthContext";
 import ProfilePage from "./pages/ProfilePage";
 import RedirectIfNotAuth from "./pages/RouteMiddleware/RedirectIfNotAuth";
 import RedirectIfAuth from "./pages/RouteMiddleware/RedirectIfAuth";
+import EditArticlePage from "./pages/Profile/EditArticlePage";
 
 const MainRoute = () => {
     return (
@@ -35,6 +36,14 @@ const MainRoute = () => {
                         element={
                             <RedirectIfNotAuth>
                                 <ProfilePage />
+                            </RedirectIfNotAuth>
+                        }
+                    />
+                    <Route
+                        path="/edit/article/:slug"
+                        element={
+                            <RedirectIfNotAuth>
+                                <EditArticlePage />
                             </RedirectIfNotAuth>
                         }
                     />
