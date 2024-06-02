@@ -13,9 +13,9 @@ const ArticleListsPage = () => {
         setIsLoading(true);
         const { data } = await axios.get(`/auth/article?page=${page}`);
         setTimeout(() => {
-        setArticles(data.data.articles);
-        setIsLoading(false);
-        setTotalPage(data.data.totalPage);
+            setArticles(data.data.articles);
+            setIsLoading(false);
+            setTotalPage(data.data.totalPage);
         }, 2000);
     };
 
@@ -48,23 +48,27 @@ const ArticleListsPage = () => {
                                                 <span className="text-success mr-2">
                                                     <i className="bx bx-happy-heart-eyes" />
                                                 </span>
-                                                {article.view_count}
+                                                <div>{article.view_count}</div>
                                             </div>
                                             <div className="d-flex">
                                                 <span className="text-success mr-2">
                                                     <i className="bx bx-heart text-danger" />
                                                 </span>
-                                                {article.like_count}
+                                                <div>{article.like_count}</div>
                                             </div>
                                             <div className="d-flex">
                                                 <span className="text-success mr-2">
                                                     <i className="bx bx-message-square-dots text-primary" />
                                                 </span>
-                                                {article.comment_count}
+                                                <div>
+                                                    {article.comment_count}
+                                                </div>
                                             </div>
                                         </div>
-                                        <p>{article.description}</p>
-                                        <div className="d-flex justify-content-between">
+                                        <div>
+                                            <p>{article.description}</p>
+                                        </div>
+                                        <div className="d-flex justify-content-end">
                                             <Link
                                                 to={"#"}
                                                 className="btn btn-secondary float-right"
@@ -72,7 +76,7 @@ const ArticleListsPage = () => {
                                                 View
                                             </Link>
                                             <Link
-                                                to={"#"}
+                                                to={`/edit/article/${article.slug}`}
                                                 className="btn btn-primary float-right"
                                             >
                                                 Edit
@@ -85,7 +89,22 @@ const ArticleListsPage = () => {
                     </div>
                     {/* load more button */}
                     <div className="col-12 mt-5">
-                        <div className="d-flex justify-content-end">
+                        <div
+                            className={`d-flex justify-content-${
+                                page < totalPage ? `end` : `between`
+                            }`}
+                        >
+                            {page < totalPage ? (
+                                <></>
+                            ) : (
+                                <button
+                                    className="btn btn-primary"
+                                    onClick={() => setPage(page - 1)}
+                                >
+                                    Back
+                                </button>
+                            )}
+
                             <button
                                 disabled={page >= totalPage ? true : false}
                                 className="btn btn-primary"

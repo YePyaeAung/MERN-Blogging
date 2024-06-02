@@ -1,7 +1,7 @@
 const AccountSettingPage = () => {
     return (
         <div className="row mt-5">
-            <div className="col-12">
+            <div className="card bg-dark col-12 p-4">
                 <div className="form-group">
                     <label htmlFor="">
                         Enter Current Password
