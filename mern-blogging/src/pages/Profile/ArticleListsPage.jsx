@@ -16,7 +16,7 @@ const ArticleListsPage = () => {
             setArticles(data.data.articles);
             setIsLoading(false);
             setTotalPage(data.data.totalPage);
-        }, 2000);
+        }, 1000);
     };
 
     useEffect(() => {
