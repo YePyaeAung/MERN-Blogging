@@ -4,6 +4,7 @@ import {
     destroy,
     edit,
     getTagsAndLanguages,
+    show,
     store,
     update,
 } from "../controllers/ArticleController.js";
@@ -17,6 +18,7 @@ router.use(CheckAuth);
 router.get("/tags-languages", getTagsAndLanguages);
 router.post("/", store);
 router.get("/", all);
+router.get("/:slug", show);
 router.get("/edit/:slug", edit);
 router.post("/update/:slug", update);
 router.delete("/:slug", destroy);
