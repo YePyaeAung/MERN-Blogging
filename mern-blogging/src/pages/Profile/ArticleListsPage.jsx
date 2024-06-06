@@ -2,6 +2,8 @@ import axios from "axios";
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import Loader from "../../components/Loader";
+import { toast } from "react-toastify";
+import { toastOptions } from "../../utils/ToastOptions";
 
 const ArticleListsPage = () => {
     const [page, setPage] = useState(1);
@@ -19,22 +21,6 @@ const ArticleListsPage = () => {
         }, 1000);
     };
 
-    // Text Formatting Functions
-    const convertHtmlToPlainText = html => {
-        const tempElement = document.createElement("div");
-        tempElement.innerHTML = html;
-        return tempElement.textContent || tempElement.innerText || "";
-    };
-
-    const convertHtmlToFirstSentence = html => {
-        const tempElement = document.createElement("div");
-        tempElement.innerHTML = html;
-        const textContent =
-            tempElement.textContent || tempElement.innerText || "";
-        const firstSentence = textContent.match(/[^.!?]+[.!?]/);
-        return firstSentence ? firstSentence[0].trim() : "";
-    };
-
     const convertHtmlToFirst10Words = html => {
         const tempElement = document.createElement("div");
         tempElement.innerHTML = html;
@@ -47,6 +33,16 @@ const ArticleListsPage = () => {
     useEffect(() => {
         getArticles();
     }, [page]);
+
+    const removeArticle = async slug => {
+        try {
+            await axios.delete(`/auth/article/${slug}`);
+            toast.success("Article Deleted!", toastOptions);
+            getArticles();
+        } catch (error) {
+            toast.error("Something went wrong!", toastOptions);
+        }
+    };
 
     return (
         <>
@@ -63,9 +59,13 @@ const ArticleListsPage = () => {
                                         src={`http://localhost:8888/images/${article.image}`}
                                         alt=""
                                         className="w-50"
+                                        style={{
+                                            height: "300px",
+                                            objectFit: "cover",
+                                        }}
                                     />
-                                    <div className="ml-3 p-3">
-                                        <h3 className="text-white">
+                                    <div className="ml-3 p-3 d-flex flex-column justify-content-between">
+                                        <h3 className="d-flex text-white">
                                             {article.title}
                                         </h3>
                                         <div className="d-flex justify-content-between">
@@ -90,7 +90,7 @@ const ArticleListsPage = () => {
                                                 </div>
                                             </div>
                                         </div>
-                                        <div>
+                                        <div className="d-flex">
                                             <p>
                                                 {convertHtmlToFirst10Words(
                                                     article.description
@@ -101,16 +101,42 @@ const ArticleListsPage = () => {
                                         <div className="d-flex justify-content-end">
                                             <Link
                                                 to={"#"}
-                                                className="btn btn-secondary float-right"
+                                                className="btn btn-outline-primary btn-dark d-flex justify-content-center align-items-center"
+                                                style={{
+                                                    width: "40px",
+                                                    height: "40px",
+                                                }}
                                             >
-                                                View
+                                                <span className="text-grey">
+                                                    <i className="bx bx-show"></i>
+                                                </span>
                                             </Link>
                                             <Link
                                                 to={`/edit/article/${article.slug}`}
-                                                className="btn btn-primary float-right"
+                                                className="btn btn-outline-primary btn-dark d-flex justify-content-center align-items-center"
+                                                style={{
+                                                    width: "40px",
+                                                    height: "40px",
+                                                }}
                                             >
-                                                Edit
+                                                <span className="text-grey">
+                                                    <i className="bx bx-edit"></i>
+                                                </span>
                                             </Link>
+                                            <button
+                                                onClick={() => {
+                                                    removeArticle(article.slug);
+                                                }}
+                                                className="btn btn-outline-primary btn-dark d-flex justify-content-center align-items-center"
+                                                style={{
+                                                    width: "40px",
+                                                    height: "40px",
+                                                }}
+                                            >
+                                                <span className="text-grey">
+                                                    <i className="bx bx-trash"></i>
+                                                </span>
+                                            </button>
                                         </div>
                                     </div>
                                 </div>
@@ -124,9 +150,7 @@ const ArticleListsPage = () => {
                                 page < totalPage ? `end` : `between`
                             }`}
                         >
-                            {page < totalPage ? (
-                                <></>
-                            ) : (
+                            {page > 1 && (
                                 <button
                                     className="btn btn-primary"
                                     onClick={() => setPage(page - 1)}
