@@ -147,6 +147,12 @@ export const update = async (req, res) => {
     }
 };
 
-export const destroy = (req, res) => {
-    res.json("delete request");
+export const destroy = async (req, res) => {
+    try {
+        const { slug } = req.params;
+        await ArticleModel.deleteOne({ slug });
+        res.json(successJson("Deleted Successfully!", null));
+    } catch (error) {
+        res.json(errorJson(error.message, null));
+    }
 };

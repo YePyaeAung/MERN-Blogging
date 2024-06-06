@@ -6,7 +6,8 @@ import axios from "axios";
 import { toast } from "react-toastify";
 import { toastOptions } from "../../utils/ToastOptions.js";
 
-const CreateArticlePage = () => {
+/* eslint-disable react/prop-types */
+const CreateArticlePage = ({ setTypeOfTag }) => {
     const [tags, setTags] = useState([]);
     const [languages, setLanguages] = useState([]);
 
@@ -40,7 +41,8 @@ const CreateArticlePage = () => {
         try {
             const response = await axios.post("/auth/article", formData);
             if (response.data.success) {
-                return toast.success(response.data.message, toastOptions);
+                toast.success(response.data.message, toastOptions);
+                setTypeOfTag("article-lists");
             } else {
                 return toast.error("Something Went Wrong!", toastOptions);
             }
