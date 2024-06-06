@@ -99,8 +99,52 @@ export const edit = async (req, res) => {
     }
 };
 
-export const update = (req, res) => {
-    res.json("update request");
+export const update = async (req, res) => {
+    try {
+        const { files, body, params } = req;
+        const dbData = await ArticleModel.findOne({ slug: params.slug });
+        if (files) {
+            // upload image
+            var fileName = files.image.name;
+            const filePath = "public/images/" + fileName;
+            files.image.mv(filePath);
+        } else {
+            fileName = dbData.image;
+        }
+        // prepare for tags
+        const tags = JSON.parse(body.selectedTags);
+        const tagsQuery = [];
+        tags.map(tag => {
+            tagsQuery.push({ slug: tag.value });
+        });
+        const findTags = await TagModel.find({
+            $or: tagsQuery,
+        });
+        // prepare for languages
+        const languages = JSON.parse(body.selectedLanguages);
+        const languagesQuery = [];
+        languages.map(language => {
+            languagesQuery.push({ slug: language.value });
+        });
+        const findLanguages = await LanguageModel.find({
+            $or: languagesQuery,
+        });
+        // article store
+        const article = await ArticleModel.findOneAndUpdate(
+            { slug: params.slug },
+            {
+                slug: slug(body.title),
+                title: body.title,
+                image: fileName,
+                tags: findTags,
+                languages: findLanguages,
+                description: body.description,
+            }
+        );
+        res.json(successJson("Article Updated!", fileName));
+    } catch (error) {
+        res.json(errorJson(error.message, null));
+    }
 };
 
 export const destroy = (req, res) => {

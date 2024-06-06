@@ -75,23 +75,6 @@ const EditArticlePage = () => {
     }, []);
 
     /* Formatted Tags and Languages | Change selectedTags and selectedLanguages */
-
-    /* Code Style 1 */
-    // useEffect(() => {
-    //     const formattedTagsData = tags.filter(tag =>
-    //         dbTags.some(dbTag => dbTag.slug === tag.value)
-    //     );
-    //     setSelectedTags(formattedTagsData);
-    // }, [tags, dbTags]);
-
-    // useEffect(() => {
-    //     const formattedLanguagesData = languages.filter(language =>
-    //         dbLanguages.some(dbLanguage => dbLanguage.slug === language.value)
-    //     );
-    //     setSelectedLanguages(formattedLanguagesData);
-    // }, [languages, dbLanguages]);
-
-    /* Code Style 2 */
     useEffect(() => {
         const formattedTagsData = [];
         tags.map(tag => {
@@ -115,9 +98,8 @@ const EditArticlePage = () => {
         });
         setSelectedLanguages(formattedLanguagesData);
     }, [languages, dbLanguages]);
-    /* Style 1 and 2 are the same, you can use one the these. */
 
-    const storeArticle = async () => {
+    const updateArticle = async () => {
         const formData = new FormData();
         formData.append("title", title);
         if (image) formData.append("image", image);
@@ -125,8 +107,12 @@ const EditArticlePage = () => {
         formData.append("selectedLanguages", JSON.stringify(selectedLanguages));
         formData.append("description", description);
         try {
-            const response = await axios.post("/auth/article", formData);
+            const response = await axios.post(
+                `/auth/article/update/${slug}`,
+                formData
+            );
             if (response.data.success) {
+                setDbImage(response.data.data);
                 return toast.success(response.data.message, toastOptions);
             } else {
                 return toast.error("Something Went Wrong!", toastOptions);
@@ -146,7 +132,7 @@ const EditArticlePage = () => {
                         <form
                             onSubmit={e => {
                                 e.preventDefault();
-                                storeArticle();
+                                updateArticle();
                             }}
                         >
                             <h3 className="text-primary">Edit Article</h3>

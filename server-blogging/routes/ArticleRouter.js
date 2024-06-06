@@ -18,7 +18,7 @@ router.get("/tags-languages", getTagsAndLanguages);
 router.post("/", store);
 router.get("/", all);
 router.get("/edit/:slug", edit);
-router.put("/:slug", update);
+router.post("/update/:slug", update);
 router.delete("/:slug", destroy);
 
 export default router;
