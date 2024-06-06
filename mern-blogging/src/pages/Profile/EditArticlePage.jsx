@@ -27,25 +27,6 @@ const EditArticlePage = () => {
 
     const { slug } = useParams();
 
-    // const getTagsAndLanguages = async () => {
-    //     try {
-    //         const data = await axios.get("/auth/article/tags-languages");
-    //         setTags(await data.data.data.tags);
-    //         setLanguages(await data.data.data.languages);
-    //     } catch (error) {
-    //         toast.error("Failed to fetch tags and languages!", toastOptions);
-    //     }
-    // };
-
-    // const getArticleData = async () => {
-    //     try {
-    //         const article = await axios.get(`/auth/article/edit/${slug}`);
-    //         console.log(article.data);
-    //     } catch (error) {
-    //         toast.error("Failed to fetch article data!", toastOptions);
-    //     }
-    // };
-
     const fetchData = async () => {
         try {
             const promises = [];

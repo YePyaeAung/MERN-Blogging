@@ -4,6 +4,7 @@ import { Link } from "react-router-dom";
 import Loader from "../../components/Loader";
 import { toast } from "react-toastify";
 import { toastOptions } from "../../utils/ToastOptions";
+import globalUrl from "../../data/globalUrl";
 
 const ArticleListsPage = () => {
     const [page, setPage] = useState(1);
@@ -56,7 +57,7 @@ const ArticleListsPage = () => {
                             <div key={article._id} className="col-12 mt-3">
                                 <div className="card bg-dark d-flex flex-row">
                                     <img
-                                        src={`http://localhost:8888/images/${article.image}`}
+                                        src={`${globalUrl.host}/images/${article.image}`}
                                         alt=""
                                         className="w-50"
                                         style={{
@@ -100,7 +101,7 @@ const ArticleListsPage = () => {
                                         </div>
                                         <div className="d-flex justify-content-end">
                                             <Link
-                                                to={"#"}
+                                                to={`/article/${article.slug}`}
                                                 className="btn btn-outline-primary btn-dark d-flex justify-content-center align-items-center"
                                                 style={{
                                                     width: "40px",

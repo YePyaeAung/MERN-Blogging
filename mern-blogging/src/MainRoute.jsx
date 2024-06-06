@@ -8,6 +8,7 @@ import ProfilePage from "./pages/ProfilePage";
 import RedirectIfNotAuth from "./pages/RouteMiddleware/RedirectIfNotAuth";
 import RedirectIfAuth from "./pages/RouteMiddleware/RedirectIfAuth";
 import EditArticlePage from "./pages/Profile/EditArticlePage";
+import SingleArticlePage from "./pages/Profile/SingleArticlePage";
 
 const MainRoute = () => {
     return (
@@ -44,6 +45,14 @@ const MainRoute = () => {
                         element={
                             <RedirectIfNotAuth>
                                 <EditArticlePage />
+                            </RedirectIfNotAuth>
+                        }
+                    />
+                    <Route
+                        path="/article/:slug"
+                        element={
+                            <RedirectIfNotAuth>
+                                <SingleArticlePage />
                             </RedirectIfNotAuth>
                         }
                     />
