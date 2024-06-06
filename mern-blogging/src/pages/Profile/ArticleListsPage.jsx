@@ -19,6 +19,31 @@ const ArticleListsPage = () => {
         }, 1000);
     };
 
+    // Text Formatting Functions
+    const convertHtmlToPlainText = html => {
+        const tempElement = document.createElement("div");
+        tempElement.innerHTML = html;
+        return tempElement.textContent || tempElement.innerText || "";
+    };
+
+    const convertHtmlToFirstSentence = html => {
+        const tempElement = document.createElement("div");
+        tempElement.innerHTML = html;
+        const textContent =
+            tempElement.textContent || tempElement.innerText || "";
+        const firstSentence = textContent.match(/[^.!?]+[.!?]/);
+        return firstSentence ? firstSentence[0].trim() : "";
+    };
+
+    const convertHtmlToFirst10Words = html => {
+        const tempElement = document.createElement("div");
+        tempElement.innerHTML = html;
+        const textContent =
+            tempElement.textContent || tempElement.innerText || "";
+        const words = textContent.split(/\s+/).slice(0, 10).join(" ");
+        return words;
+    };
+
     useEffect(() => {
         getArticles();
     }, [page]);
@@ -66,7 +91,12 @@ const ArticleListsPage = () => {
                                             </div>
                                         </div>
                                         <div>
-                                            <p>{article.description}</p>
+                                            <p>
+                                                {convertHtmlToFirst10Words(
+                                                    article.description
+                                                )}
+                                                ...
+                                            </p>
                                         </div>
                                         <div className="d-flex justify-content-end">
                                             <Link
