@@ -6,7 +6,7 @@ import axios from "axios";
 import { toast } from "react-toastify";
 import { toastOptions } from "../../utils/ToastOptions.js";
 import Master from "../layout/Master.jsx";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import Loader from "../../components/Loader.jsx";
 import globalUrl from "../../data/globalUrl.js";
 
@@ -26,6 +26,7 @@ const EditArticlePage = () => {
     const [dbLanguages, setDbLanguages] = useState([]);
 
     const { slug } = useParams();
+    const navigate = useNavigate();
 
     const fetchData = async () => {
         try {
@@ -183,10 +184,18 @@ const EditArticlePage = () => {
                                     className="custom-quill"
                                 />
                             </div>
-                            <div className="col-12 text-right marginTop">
+                            <div className="col-12 marginTop">
+                                <a
+                                    onClick={() => {
+                                        navigate(-1);
+                                    }}
+                                    className="btn btn-primary text-white"
+                                >
+                                    Back
+                                </a>
                                 <button
                                     type="submit"
-                                    className="btn btn-primary"
+                                    className="btn btn-primary float-right"
                                 >
                                     Save Article
                                 </button>
