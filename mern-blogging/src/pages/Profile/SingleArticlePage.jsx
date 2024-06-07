@@ -1,17 +1,19 @@
-import { useNavigate, useParams } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import globalUrl from "../../data/globalUrl";
 import Master from "../layout/Master";
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import axios from "axios";
 import { toast } from "react-toastify";
 import { toastOptions } from "../../utils/ToastOptions";
 import Loader from "../../components/Loader";
+import AuthContext from "../../contexts/AuthContext";
 
 const SingleArticlePage = () => {
     const [article, setArticle] = useState([]);
     const [isLoading, setIsLoading] = useState(true);
     const navigate = useNavigate();
     const { slug } = useParams();
+    const { auth } = useContext(AuthContext);
 
     const getSingleArticle = async () => {
         try {
@@ -43,6 +45,16 @@ const SingleArticlePage = () => {
             ) : (
                 <div className="row">
                     <div className="col-12 card bg-dark p-3">
+                        {auth && (
+                            <div className="mb-3">
+                                <Link
+                                    to={`/edit/article/${slug}`}
+                                    className="btn btn-outline-warning float-right"
+                                >
+                                    Edit
+                                </Link>
+                            </div>
+                        )}
                         <div className="d-flex">
                             <img
                                 className="col-12"
