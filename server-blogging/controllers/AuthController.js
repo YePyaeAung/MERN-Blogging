@@ -166,3 +166,40 @@ export const changePassword = async (req, res) => {
         res.json(errorJson("Validation Failed!", error));
     }
 };
+
+export const removeAccount = async (req, res) => {
+    const validateInput = async payload => {
+        const rules = {
+            email: "email | required",
+            password: "required | min:3 | max:20",
+        };
+        const messages = {
+            "email.required": "Enter a valid email address.",
+            "password.required": "Enter a valid password.",
+            "password.min": "The password must be at least 3 characters long.",
+        };
+        await validator.validateAll(payload, rules, messages);
+    };
+    try {
+        // validation
+        await validateInput(req.body);
+        // check user email
+        const { email, password } = req.body;
+        const user = await UserModel.findOne({ email });
+        if (!user) {
+            return res.json(errorJson("User Not Found!", null));
+        }
+        // check password
+        const checkPassword = await bcrypt.compare(password, user.password);
+        // res.json(checkPassword)
+        if (!checkPassword) {
+            return res.json(errorJson("Wrong Password!", null));
+        } else {
+            await UserModel.deleteOne({ email });
+            res.clearCookie("access_token");
+            return res.json(successJson("Account Deleted Successfully!", null));
+        }
+    } catch (error) {
+        return res.json(errorJson(error.message, null));
+    }
+};
