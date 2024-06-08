@@ -5,7 +5,7 @@ import { useContext, useState } from "react";
 import { toast } from "react-toastify";
 import { toastOptions } from "../../utils/ToastOptions.js";
 import AuthContext from "../../contexts/AuthContext.jsx";
-import LoginLoader from "../../components/LoginLoader.jsx";
+import BtnLoader from "../../components/BtnLoader.jsx";
 
 const LoginPage = () => {
     const [email, setEmail] = useState("");
@@ -90,7 +90,7 @@ const LoginPage = () => {
                     >
                         {isLoading ? (
                             <>
-                                <LoginLoader />
+                                <BtnLoader text={"Logging in..."} />
                             </>
                         ) : (
                             <>Login</>

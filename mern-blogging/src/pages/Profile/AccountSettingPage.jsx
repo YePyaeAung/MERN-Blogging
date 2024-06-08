@@ -4,11 +4,15 @@ import axios from "axios";
 import { toast } from "react-toastify";
 import { toastOptions } from "../../utils/ToastOptions";
 import { useNavigate } from "react-router-dom";
-import ChangPassLoader from "../../components/ChangPassLoader";
+import BtnLoader from "../../components/BtnLoader";
 
 const AccountSettingPage = () => {
     const [oldPassword, setOldPassword] = useState("");
     const [newPassword, setNewPassword] = useState("");
+
+    const [email, setEmail] = useState("");
+    const [password, setPassword] = useState("");
+
     const [isLoading, setIsLoading] = useState(false);
     const { setAuth, authUser, setAuthUser } = useContext(AuthContext);
     const navigate = useNavigate();
@@ -39,49 +43,97 @@ const AccountSettingPage = () => {
         }
     };
 
+    const removeAccount = async () => {};
+
     return (
-        <div className="row mt-5">
-            <form
-                className="card bg-dark col-12 p-4"
-                onSubmit={e => {
-                    e.preventDefault();
-                    handleChangePassword();
-                }}
-            >
-                <div className="form-group">
-                    <label htmlFor="">Enter Current Password</label>
-                    <input
-                        type="password"
-                        className="form-control"
-                        onChange={e => {
-                            setOldPassword(e.target.value);
-                        }}
-                    />
-                </div>
-                <div className="form-group">
-                    <label htmlFor="">Enter New Password</label>
-                    <input
-                        type="password"
-                        className="form-control"
-                        onChange={e => {
-                            setNewPassword(e.target.value);
-                        }}
-                    />
-                </div>
-                <button
-                    type="submit"
-                    className="btn btn-primary float-right mt-4"
+        <>
+            <div className="row mt-5">
+                <h5>Change Your Password</h5>
+                <form
+                    className="card bg-dark col-12 p-4"
+                    onSubmit={e => {
+                        e.preventDefault();
+                        removeAccount();
+                    }}
                 >
-                    {isLoading ? (
-                        <>
-                            <ChangPassLoader />
-                        </>
-                    ) : (
-                        "Change"
-                    )}
-                </button>
-            </form>
-        </div>
+                    <div className="form-group">
+                        <label htmlFor="">Enter Current Password</label>
+                        <input
+                            type="password"
+                            className="form-control"
+                            onChange={e => {
+                                setOldPassword(e.target.value);
+                            }}
+                        />
+                    </div>
+                    <div className="form-group">
+                        <label htmlFor="">Enter New Password</label>
+                        <input
+                            type="password"
+                            className="form-control"
+                            onChange={e => {
+                                setNewPassword(e.target.value);
+                            }}
+                        />
+                    </div>
+                    <button
+                        type="submit"
+                        className="btn btn-primary float-right mt-4"
+                    >
+                        {isLoading ? (
+                            <>
+                                <BtnLoader text={"Changing..."} />
+                            </>
+                        ) : (
+                            "Change"
+                        )}
+                    </button>
+                </form>
+            </div>
+            <div className="row mt-5">
+                <h5>Delete Your Account</h5>
+                <form
+                    className="card bg-dark col-12 p-4"
+                    onSubmit={e => {
+                        e.preventDefault();
+                        handleChangePassword();
+                    }}
+                >
+                    <div className="form-group">
+                        <label htmlFor="">Enter Email</label>
+                        <input
+                            type="email"
+                            className="form-control"
+                            onChange={e => {
+                                setEmail(e.target.value);
+                            }}
+                        />
+                    </div>
+                    <div className="form-group">
+                        <label htmlFor="">Enter Password</label>
+                        <input
+                            type="password"
+                            className="form-control"
+                            onChange={e => {
+                                setPassword(e.target.value);
+                            }}
+                        />
+                    </div>
+                    <button
+                        type="submit"
+                        className="btn btn-primary float-right mt-4"
+                    >
+                        {isLoading ? (
+                            <>
+                                <BtnLoader text={"Deleting Your Account..."} />
+                            </>
+                        ) : (
+                            "Delete Account"
+                        )}
+                    </button>
+                </form>
+            </div>
+        </>
     );
 };
 

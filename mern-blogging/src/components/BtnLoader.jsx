@@ -1,4 +1,5 @@
-const ChangPassLoader = () => {
+/* eslint-disable react/prop-types */
+const BtnLoader = ({ text }) => {
     return (
         <div>
             <span
@@ -6,9 +7,9 @@ const ChangPassLoader = () => {
                 role="status"
                 aria-hidden="true"
             ></span>
-            Changing...
+            {text}
         </div>
     );
 };
 
-export default ChangPassLoader;
+export default BtnLoader;
