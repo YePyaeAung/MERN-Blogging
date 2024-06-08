@@ -184,7 +184,8 @@ export const removeAccount = async (req, res) => {
         // validation
         await validateInput(req.body);
         // check user email
-        const { email, password } = req.body;
+        const { email, password, authUser } = req.body;
+        // res.json(authUser);
         const user = await UserModel.findOne({ email });
         if (!user) {
             return res.json(errorJson("User Not Found!", null));
@@ -195,11 +196,17 @@ export const removeAccount = async (req, res) => {
         if (!checkPassword) {
             return res.json(errorJson("Wrong Password!", null));
         } else {
-            await UserModel.deleteOne({ email });
-            res.clearCookie("access_token");
-            return res.json(successJson("Account Deleted Successfully!", null));
+            if (user._id == authUser._id) {
+                await UserModel.findByIdAndDelete({ _id: authUser._id });
+                res.clearCookie("access_token");
+                return res.json(
+                    successJson("Account Deleted Successfully!", null)
+                );
+            } else {
+                return res.json(errorJson("This is NOT Your Account!", null));
+            }
         }
     } catch (error) {
-        return res.json(errorJson(error.message, null));
+        return res.json(errorJson("Validation Failed!", error));
     }
 };
