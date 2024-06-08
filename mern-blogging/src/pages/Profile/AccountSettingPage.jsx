@@ -13,20 +13,21 @@ const AccountSettingPage = () => {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
 
-    const [isLoading, setIsLoading] = useState(false);
+    const [isChanging, setIsChanging] = useState(false);
+    const [isDeleting, setIsDeleting] = useState(false);
     const { setAuth, authUser, setAuthUser } = useContext(AuthContext);
     const navigate = useNavigate();
 
     const handleChangePassword = async () => {
         try {
-            setIsLoading(true);
+            setIsChanging(true);
             setTimeout(async () => {
                 const { data } = await axios.post("/change-password", {
                     oldPassword,
                     newPassword,
                     authUser,
                 });
-                setIsLoading(false);
+                setIsChanging(false);
                 if (data.success) {
                     toast.success(data.message, toastOptions);
                     await axios.post("/logout");
@@ -43,7 +44,29 @@ const AccountSettingPage = () => {
         }
     };
 
-    const removeAccount = async () => {};
+    const removeAccount = async () => {
+        try {
+            setIsDeleting(true);
+            const { data } = await axios.post("/delete-account", {
+                email,
+                password,
+                authUser,
+            });
+            setIsDeleting(false);
+            if (data.success) {
+                toast.success(data.message, toastOptions);
+                await axios.post("/logout");
+                setAuth(false);
+                setAuthUser({});
+                navigate("/register");
+                toast.info("Please Login Again!", toastOptions);
+            } else {
+                toast.error(data.message, toastOptions);
+            }
+        } catch (error) {
+            toast.error(error.message, toastOptions);
+        }
+    };
 
     return (
         <>
@@ -53,7 +76,7 @@ const AccountSettingPage = () => {
                     className="card bg-dark col-12 p-4"
                     onSubmit={e => {
                         e.preventDefault();
-                        removeAccount();
+                        handleChangePassword();
                     }}
                 >
                     <div className="form-group">
@@ -80,7 +103,7 @@ const AccountSettingPage = () => {
                         type="submit"
                         className="btn btn-primary float-right mt-4"
                     >
-                        {isLoading ? (
+                        {isChanging ? (
                             <>
                                 <BtnLoader text={"Changing..."} />
                             </>
@@ -96,7 +119,7 @@ const AccountSettingPage = () => {
                     className="card bg-dark col-12 p-4"
                     onSubmit={e => {
                         e.preventDefault();
-                        handleChangePassword();
+                        removeAccount();
                     }}
                 >
                     <div className="form-group">
@@ -123,7 +146,7 @@ const AccountSettingPage = () => {
                         type="submit"
                         className="btn btn-primary float-right mt-4"
                     >
-                        {isLoading ? (
+                        {isDeleting ? (
                             <>
                                 <BtnLoader text={"Deleting Your Account..."} />
                             </>
