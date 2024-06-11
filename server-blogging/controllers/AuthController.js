@@ -123,50 +123,6 @@ export const logout = (req, res) => {
     res.json(successJson("Logout Successfully!", null));
 };
 
-export const changePassword = async (req, res) => {
-    const validatePasswordInput = async payload => {
-        const rules = {
-            oldPassword: "required | min:3 | max:20",
-            newPassword: "required | min:3 | max:20",
-        };
-        const messages = {
-            "oldPassword.required": "Enter a valid old password.",
-            "oldPassword.min":
-                "The old password must be at least 3 characters long.",
-            "newPassword.required": "Enter a valid new password.",
-            "newPassword.min":
-                "The new password must be at least 3 characters long.",
-        };
-        await validator.validateAll(payload, rules, messages);
-    };
-    try {
-        const { oldPassword, newPassword, authUser } = req.body;
-        // validation process
-        await validatePasswordInput(req.body);
-        // check user
-        const user = await UserModel.findById(authUser._id);
-        if (!user) {
-            res.json(errorJson("User Not Found!", null));
-        }
-        // check old password
-        const checkOldPassword = await bcrypt.compareSync(
-            oldPassword,
-            user.password
-        );
-        if (!checkOldPassword) {
-            return res.json(errorJson("Wrong Password!", null));
-        }
-        // Save New Password
-        const saltRound = bcrypt.genSaltSync(10);
-        const hashedNewPassword = bcrypt.hashSync(newPassword, saltRound);
-        user.password = hashedNewPassword;
-        await user.save();
-        res.json(successJson("Password Changed Successfully!", user));
-    } catch (error) {
-        res.json(errorJson("Validation Failed!", error));
-    }
-};
-
 export const removeAccount = async (req, res) => {
     const validateInput = async payload => {
         const rules = {
