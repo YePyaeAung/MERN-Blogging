@@ -22,10 +22,9 @@ const AccountSettingPage = () => {
         try {
             setIsChanging(true);
             setTimeout(async () => {
-                const { data } = await axios.post("/change-password", {
+                const { data } = await axios.post("/auth/change-password", {
                     oldPassword,
                     newPassword,
-                    authUser,
                 });
                 setIsChanging(false);
                 if (data.success) {

@@ -7,6 +7,7 @@ import { errorJson, successJson } from "./utils/JsonResponse.js";
 import cookieParser from "cookie-parser";
 import cors from "cors";
 import fileUpload from "express-fileupload";
+import ProfileRouter from "./routes/ProfileRouter.js";
 
 const app = express();
 
@@ -37,6 +38,7 @@ app.use(express.static("public"))
 // route middleware
 app.use("/api", AuthRouter);
 app.use("/api/auth/article", ArticleRouter);
+app.use("/api/auth", ProfileRouter);
 
 // test route
 app.get("/test/success", async (req, res) => {
