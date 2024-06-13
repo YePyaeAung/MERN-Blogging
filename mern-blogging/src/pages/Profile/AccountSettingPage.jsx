@@ -10,12 +10,11 @@ const AccountSettingPage = () => {
     const [oldPassword, setOldPassword] = useState("");
     const [newPassword, setNewPassword] = useState("");
 
-    const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
 
     const [isChanging, setIsChanging] = useState(false);
     const [isDeleting, setIsDeleting] = useState(false);
-    const { setAuth, authUser, setAuthUser } = useContext(AuthContext);
+    const { setAuth, setAuthUser } = useContext(AuthContext);
     const navigate = useNavigate();
 
     const handleChangePassword = async () => {
@@ -46,10 +45,8 @@ const AccountSettingPage = () => {
     const removeAccount = async () => {
         try {
             setIsDeleting(true);
-            const { data } = await axios.post("/delete-account", {
-                email,
+            const { data } = await axios.post("/auth/delete-account", {
                 password,
-                authUser,
             });
             setIsDeleting(false);
             if (data.success) {
@@ -121,16 +118,6 @@ const AccountSettingPage = () => {
                         removeAccount();
                     }}
                 >
-                    <div className="form-group">
-                        <label htmlFor="">Enter Email</label>
-                        <input
-                            type="email"
-                            className="form-control"
-                            onChange={e => {
-                                setEmail(e.target.value);
-                            }}
-                        />
-                    </div>
                     <div className="form-group">
                         <label htmlFor="">Enter Password</label>
                         <input

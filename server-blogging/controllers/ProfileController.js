@@ -42,7 +42,54 @@ const ProfileController = {
             await UserModel.findByIdAndUpdate(authUser._id, {
                 password: hashedNewPassword,
             });
-            return res.json(successJson("Password Changed Successfully!", findUser));
+            return res.json(
+                successJson("Password Changed Successfully!", findUser)
+            );
+        } catch (error) {
+            return res.json(errorJson("Validation Failed!", error));
+        }
+    },
+    removeAccount: async (req, res) => {
+        const validateInputs = async payload => {
+            const rules = {
+                password: "required | min:3 | max:20",
+            };
+            const messages = {
+                "password.required": "Enter a valid password.",
+                "password.min":
+                    "The password must be at least 3 characters long.",
+            };
+            await validator.validateAll(payload, rules, messages);
+        };
+        try {
+            // validation
+            await validateInputs(req.body);
+            // check user email
+            const { password } = req.body;
+            // Get authenticated user
+            const authUser = req.authUser;
+            // Find the user in the database
+            const user = await UserModel.findById(authUser._id);
+            if (!user) {
+                return res.json(errorJson("User not found!", null));
+            }
+            // check password
+            const checkPassword = await bcrypt.compare(password, user.password);
+            if (!checkPassword) {
+                return res.json(errorJson("Wrong Password!", null));
+            } else {
+                if (user._id == authUser._id) {
+                    await UserModel.findByIdAndDelete(authUser._id);
+                    res.clearCookie("access_token");
+                    return res.json(
+                        successJson("Account Deleted Successfully!", null)
+                    );
+                } else {
+                    return res.json(
+                        errorJson("This is NOT Your Account!", null)
+                    );
+                }
+            }
         } catch (error) {
             return res.json(errorJson("Validation Failed!", error));
         }
