@@ -8,5 +8,6 @@ const router = express.Router();
 router.use(CheckAuth);
 
 router.post("/change-password", ProfileController.changePassword);
+router.post("/delete-account", ProfileController.removeAccount);
 
 export default router;
