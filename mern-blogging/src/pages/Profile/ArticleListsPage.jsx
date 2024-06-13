@@ -48,7 +48,9 @@ const ArticleListsPage = () => {
     return (
         <>
             {isLoading ? (
-                <Loader />
+                <div className="d-flex justify-content-center align-items-center vh-100">
+                    <Loader />
+                </div>
             ) : (
                 <>
                     <div className="row mt-5">
