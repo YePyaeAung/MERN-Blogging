@@ -104,9 +104,15 @@ export const register = async (req, res) => {
                     secretKey
                 );
                 res.cookie("access_token", access_token, { httpOnly: true });
+                // remove user email & password response
+                const createdUserData = { ...createdUser.toObject() };
+                delete createdUserData.email;
+                delete createdUserData.password;
                 return res
                     .status(201)
-                    .json(successJson("Register Successfully!", null));
+                    .json(
+                        successJson("Register Successfully!", createdUserData)
+                    );
             })
             .catch(error => {
                 return res
@@ -122,47 +128,3 @@ export const logout = (req, res) => {
     res.clearCookie("access_token");
     res.json(successJson("Logout Successfully!", null));
 };
-
-// export const removeAccount = async (req, res) => {
-//     const validateInput = async payload => {
-//         const rules = {
-//             email: "email | required",
-//             password: "required | min:3 | max:20",
-//         };
-//         const messages = {
-//             "email.required": "Enter a valid email address.",
-//             "password.required": "Enter a valid password.",
-//             "password.min": "The password must be at least 3 characters long.",
-//         };
-//         await validator.validateAll(payload, rules, messages);
-//     };
-//     try {
-//         // validation
-//         await validateInput(req.body);
-//         // check user email
-//         const { email, password, authUser } = req.body;
-//         // res.json(authUser);
-//         const user = await UserModel.findOne({ email });
-//         if (!user) {
-//             return res.json(errorJson("User Not Found!", null));
-//         }
-//         // check password
-//         const checkPassword = await bcrypt.compare(password, user.password);
-//         // res.json(checkPassword)
-//         if (!checkPassword) {
-//             return res.json(errorJson("Wrong Password!", null));
-//         } else {
-//             if (user._id == authUser._id) {
-//                 await UserModel.findByIdAndDelete({ _id: authUser._id });
-//                 res.clearCookie("access_token");
-//                 return res.json(
-//                     successJson("Account Deleted Successfully!", null)
-//                 );
-//             } else {
-//                 return res.json(errorJson("This is NOT Your Account!", null));
-//             }
-//         }
-//     } catch (error) {
-//         return res.json(errorJson("Validation Failed!", error));
-//     }
-// };

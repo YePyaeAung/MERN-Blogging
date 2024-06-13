@@ -24,6 +24,9 @@ const MenuBar = () => {
         <>
             {auth ? (
                 <>
+                    <Link to={"/"} className="btn btn-primary text-white">
+                        Home
+                    </Link>
                     <Link
                         to={"/profile"}
                         className="btn btn-primary text-white"
