@@ -8,6 +8,7 @@ import cookieParser from "cookie-parser";
 import cors from "cors";
 import fileUpload from "express-fileupload";
 import ProfileRouter from "./routes/ProfileRouter.js";
+import DataRouter from "./routes/DataRouter.js";
 
 const app = express();
 
@@ -33,12 +34,13 @@ app.use(express.json());
 app.use(cookieParser());
 app.use(cors({ origin: "http://localhost:3000", credentials: true }));
 app.use(fileUpload());
-app.use(express.static("public"))
+app.use(express.static("public"));
 
 // route middleware
 app.use("/api", AuthRouter);
 app.use("/api/auth/article", ArticleRouter);
 app.use("/api/auth", ProfileRouter);
+app.use("/api", DataRouter);
 
 // test route
 app.get("/test/success", async (req, res) => {
