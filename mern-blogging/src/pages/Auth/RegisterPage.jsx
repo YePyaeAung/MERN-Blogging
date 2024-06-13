@@ -1,10 +1,11 @@
 import { Link, useNavigate } from "react-router-dom";
 import Master from "../layout/Master";
 import axios from "axios";
-import { useState } from "react";
+import { useContext, useState } from "react";
 import { toast } from "react-toastify";
 import { toastOptions } from "../../utils/ToastOptions";
 import BtnLoader from "../../components/BtnLoader";
+import AuthContext from "../../contexts/AuthContext";
 
 const RegisterPage = () => {
     const [name, setName] = useState("");
@@ -12,6 +13,7 @@ const RegisterPage = () => {
     const [password, setPassword] = useState("");
     const [isLoading, setIsLoading] = useState(false);
     const navigate = useNavigate();
+    const { setAuth } = useContext(AuthContext);
 
     const handleRegister = async () => {
         try {
@@ -24,11 +26,12 @@ const RegisterPage = () => {
                 });
                 setIsLoading(false);
                 if (data.success) {
+                    setAuth(true);
                     toast.success(data.message, data);
                 } else {
                     toast.error(data.message, null);
                 }
-                return navigate("/login");
+                return navigate("/");
             }, 2000);
         } catch (error) {
             toast.error(error.message, toastOptions);
@@ -54,6 +57,7 @@ const RegisterPage = () => {
                         type="text"
                         className="form-control col-10"
                         placeholder="Enter Username"
+                        value={name}
                         onChange={e => {
                             setName(e.target.value);
                         }}
@@ -67,6 +71,7 @@ const RegisterPage = () => {
                         type="email"
                         className="form-control col-10"
                         placeholder="Enter Email"
+                        value={email}
                         onChange={e => {
                             setEmail(e.target.value);
                         }}
@@ -80,6 +85,7 @@ const RegisterPage = () => {
                         type="password"
                         className="form-control col-10"
                         placeholder="Enter Password"
+                        value={password}
                         onChange={e => {
                             setPassword(e.target.value);
                         }}
