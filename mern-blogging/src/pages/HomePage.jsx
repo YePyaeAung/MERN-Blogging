@@ -1,6 +1,33 @@
+import { useEffect, useState } from "react";
 import Master from "./layout/Master";
+import axios from "axios";
+import { toast } from "react-toastify";
+import { toastOptions } from "../utils/ToastOptions";
+import Loader from "../components/Loader";
+import globalUrl from "../data/globalUrl";
+import { Link } from "react-router-dom";
 
 const HomePage = () => {
+    const [latestArticles, setLatestArticles] = useState([]);
+    const [isLoading, setIsLoading] = useState(false);
+
+    const getLatestArticles = async () => {
+        try {
+            setIsLoading(true);
+            setTimeout(async () => {
+                const { data } = await axios.get("/get-latest-articles");
+                setLatestArticles(data.data);
+                setIsLoading(false);
+            }, 500);
+        } catch (error) {
+            return toast.error(error, toastOptions);
+        }
+    };
+
+    useEffect(() => {
+        getLatestArticles();
+    }, []);
+
     return (
         <Master>
             <div className="mt-4">
@@ -53,148 +80,57 @@ const HomePage = () => {
                 </div>
             </div>
             <div className="mt-4 blog-list">
-                <div className="row p-0 m-0">
-                    <div className="col-6 pl-0 mt-4">
-                        <div className="rounded bg-card">
-                            <img
-                                className="rounded"
-                                src="images/1.webp"
-                                style={{ width: "100%" }}
-                                alt="MERN Stack"
-                            />
-                            <div className="p-4 text-white">
-                                <h4 className="text-white">
-                                    MERN Stack တစ်ယောက်ဖြစ်ဖို့
-                                </h4>
-                                <div className="d-flex justify-content-between">
-                                    <button className="btn btn-dark d-flex">
-                                        <span className="text-success mr-2">
-                                            <i className="bx bx-happy-heart-eyes" />
-                                        </span>
-                                        100
-                                    </button>
-                                    <button className="btn btn-dark d-flex">
-                                        <span className="text-success mr-2">
-                                            <i className="bx bx-heart" />
-                                        </span>
-                                        100
-                                    </button>
-                                    <button className="btn btn-dark d-flex">
-                                        <span className="text-success mr-2">
-                                            <i className="bx bx-message-square-dots" />
-                                        </span>
-                                        100
-                                    </button>
-                                </div>
-                            </div>
-                        </div>
+                {isLoading ? (
+                    <div className="mt-5">
+                        <Loader />
                     </div>
-                    <div className="col-6 pl-0 mt-4">
-                        <div className="rounded bg-card">
-                            <img
-                                className="rounded"
-                                src="images/2.webp"
-                                style={{ width: "100%" }}
-                                alt="Laravel Developer"
-                            />
-                            <div className="p-4 text-white">
-                                <h4 className="text-white">
-                                    Laravel Developer တစ်ယောက်ဖြစ်ဖို့
-                                </h4>
-                                <div className="d-flex justify-content-between">
-                                    <button className="btn btn-dark d-flex">
-                                        <span className="text-success mr-2">
-                                            <i className="bx bx-happy-heart-eyes" />
-                                        </span>
-                                        100
-                                    </button>
-                                    <button className="btn btn-dark d-flex">
-                                        <span className="text-success mr-2">
-                                            <i className="bx bx-heart" />
-                                        </span>
-                                        100
-                                    </button>
-                                    <button className="btn btn-dark d-flex">
-                                        <span className="text-success mr-2">
-                                            <i className="bx bx-message-square-dots" />
-                                        </span>
-                                        100
-                                    </button>
-                                </div>
+                ) : (
+                    <div className="row p-0 m-0">
+                        {latestArticles.map(article => (
+                            <div key={article._id} className="col-6 pl-0 mt-4">
+                                <Link
+                                    to={`/article/${article.slug}`}
+                                    className="rounded bg-card"
+                                >
+                                    <img
+                                        className="rounded w-100"
+                                        src={`${globalUrl.host}/images/${article.image}`}
+                                        style={{
+                                            height: "300px",
+                                            objectFit: "contain",
+                                        }}
+                                        alt=""
+                                    />
+                                    <div className="p-4 text-white">
+                                        <h4 className="text-white">
+                                            {article.title}
+                                        </h4>
+                                        <div className="d-flex justify-content-between">
+                                            <button className="btn btn-dark d-flex">
+                                                <span className="text-success mr-2">
+                                                    <i className="bx bx-happy-heart-eyes" />
+                                                </span>
+                                                {article.view_count}
+                                            </button>
+                                            <button className="btn btn-dark d-flex">
+                                                <span className="text-success mr-2">
+                                                    <i className="bx bx-heart" />
+                                                </span>
+                                                {article.like_count}
+                                            </button>
+                                            <button className="btn btn-dark d-flex">
+                                                <span className="text-success mr-2">
+                                                    <i className="bx bx-message-square-dots" />
+                                                </span>
+                                                {article.comment_count}
+                                            </button>
+                                        </div>
+                                    </div>
+                                </Link>
                             </div>
-                        </div>
+                        ))}
                     </div>
-                    <div className="col-6 pl-0 mt-4">
-                        <div className="rounded bg-card">
-                            <img
-                                className="rounded"
-                                src="images/3.webp"
-                                style={{ width: "100%" }}
-                                alt="Laravel Developer"
-                            />
-                            <div className="p-4 text-white">
-                                <h4 className="text-white">
-                                    Laravel Developer တစ်ယောက်ဖြစ်ဖို့
-                                </h4>
-                                <div className="d-flex justify-content-between">
-                                    <button className="btn btn-dark d-flex">
-                                        <span className="text-success mr-2">
-                                            <i className="bx bx-happy-heart-eyes" />
-                                        </span>
-                                        100
-                                    </button>
-                                    <button className="btn btn-dark d-flex">
-                                        <span className="text-success mr-2">
-                                            <i className="bx bx-heart" />
-                                        </span>
-                                        100
-                                    </button>
-                                    <button className="btn btn-dark d-flex">
-                                        <span className="text-success mr-2">
-                                            <i className="bx bx-message-square-dots" />
-                                        </span>
-                                        100
-                                    </button>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div className="col-6 pl-0 mt-4">
-                        <div className="rounded bg-card">
-                            <img
-                                className="rounded"
-                                src="images/5.webp"
-                                style={{ width: "100%" }}
-                                alt="Laravel Developer"
-                            />
-                            <div className="p-4 text-white">
-                                <h4 className="text-white">
-                                    Laravel Developer တစ်ယောက်ဖြစ်ဖို့
-                                </h4>
-                                <div className="d-flex justify-content-between">
-                                    <button className="btn btn-dark d-flex">
-                                        <span className="text-success mr-2">
-                                            <i className="bx bx-happy-heart-eyes" />
-                                        </span>
-                                        100
-                                    </button>
-                                    <button className="btn btn-dark d-flex">
-                                        <span className="text-success mr-2">
-                                            <i className="bx bx-heart" />
-                                        </span>
-                                        100
-                                    </button>
-                                    <button className="btn btn-dark d-flex">
-                                        <span className="text-success mr-2">
-                                            <i className="bx bx-message-square-dots" />
-                                        </span>
-                                        100
-                                    </button>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+                )}
             </div>
         </Master>
     );
