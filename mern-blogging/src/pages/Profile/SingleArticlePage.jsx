@@ -36,7 +36,7 @@ const SingleArticlePage = () => {
 
     useEffect(() => {
         getSingleArticle();
-    }, []);
+    }, [slug]);
 
     return (
         <Master>
