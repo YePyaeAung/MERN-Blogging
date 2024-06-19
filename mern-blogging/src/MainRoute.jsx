@@ -9,6 +9,7 @@ import RedirectIfNotAuth from "./pages/RouteMiddleware/RedirectIfNotAuth";
 import RedirectIfAuth from "./pages/RouteMiddleware/RedirectIfAuth";
 import EditArticlePage from "./pages/Profile/EditArticlePage";
 import SingleArticlePage from "./pages/Profile/SingleArticlePage";
+import AllArticlesPage from "./pages/AllArticlesPage";
 
 const MainRoute = () => {
     return (
@@ -16,6 +17,7 @@ const MainRoute = () => {
             <AuthContextProvider>
                 <Routes>
                     <Route path="/" element={<HomePage />} />
+                    <Route path="/all-articles" element={<AllArticlesPage />} />
                     <Route
                         path="/register"
                         element={
