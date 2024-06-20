@@ -67,6 +67,32 @@ const DataController = {
             );
         }
     },
+    getAllArticles: async (req, res) => {
+        try {
+            const { title, tag, language } = req.query;
+            const queryBuilder = [];
+            if (title) {
+                queryBuilder.push({ $text: { $search: title } });
+            }
+            if (tag) {
+                queryBuilder.push({ "tags.slug": tag });
+            }
+            if (language) {
+                queryBuilder.push({ "languages.slug": language });
+            }
+
+            const query = queryBuilder.length ? { $and: queryBuilder } : {};
+
+            const articles = await ArticleModel.find(query);
+            return res.json(
+                successJson("Get Articles Successfully!", articles)
+            );
+        } catch (error) {
+            return res.json(
+                errorJson("Error while getting articles!", error.message)
+            );
+        }
+    },
 };
 
 export default DataController;
