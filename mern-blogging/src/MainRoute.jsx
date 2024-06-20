@@ -17,7 +17,7 @@ const MainRoute = () => {
             <AuthContextProvider>
                 <Routes>
                     <Route path="/" element={<HomePage />} />
-                    <Route path="/all-articles" element={<AllArticlesPage />} />
+                    <Route path="/get-all-articles" element={<AllArticlesPage />} />
                     <Route
                         path="/register"
                         element={
