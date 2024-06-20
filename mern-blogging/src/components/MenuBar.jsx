@@ -28,7 +28,7 @@ const MenuBar = () => {
                         Home
                     </Link>
                     <Link
-                        to={"/all-articles"}
+                        to={"/get-all-articles"}
                         className="btn btn-primary text-white"
                     >
                         All Articles
