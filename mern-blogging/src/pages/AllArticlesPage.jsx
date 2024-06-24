@@ -83,7 +83,7 @@ const AllArticlesPage = () => {
                     onChange={e => setSearchTitle(e.target.value)}
                     placeholder="Search Blog..."
                     type="text"
-                    className="form-control rounded bg-card w-50"
+                    className="form-control rounded bg-card w-50 mr-2"
                 />
                 <select
                     defaultValue={selectedTag}
@@ -118,7 +118,7 @@ const AllArticlesPage = () => {
                     <div className="mt-5">
                         <Loader />
                     </div>
-                ) : (
+                ) : allArticles.length > 0 ? (
                     <>
                         <div className="row p-0 m-0">
                             {/* loop here */}
@@ -186,6 +186,10 @@ const AllArticlesPage = () => {
                             </div>
                         )}
                     </>
+                ) : (
+                    <h5 className="d-flex justify-content-center">
+                        No Article Found...
+                    </h5>
                 )}
             </div>
         </Master>
