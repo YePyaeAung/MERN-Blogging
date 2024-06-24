@@ -70,6 +70,11 @@ const DataController = {
     getAllArticles: async (req, res) => {
         try {
             const { title, tag, language } = req.query;
+            const { page } = req.query;
+            const limit = 2;
+            const skip = (page - 1) * limit;
+            const articleCount = await ArticleModel.countDocuments();
+            const totalPage = Math.ceil(articleCount / limit);
             const queryBuilder = [];
             if (title) {
                 queryBuilder.push({ $text: { $search: title } });
@@ -83,9 +88,15 @@ const DataController = {
 
             const query = queryBuilder.length ? { $and: queryBuilder } : {};
 
-            const articles = await ArticleModel.find(query);
+            const articles = await ArticleModel.find(query)
+                .limit(limit)
+                .skip(skip)
+                .sort({ _id: -1 });
             return res.json(
-                successJson("Get Articles Successfully!", articles)
+                successJson("Get Articles Successfully!", {
+                    articles,
+                    totalPage,
+                })
             );
         } catch (error) {
             return res.json(
