@@ -11,7 +11,7 @@ const AllArticlesPage = () => {
     const [isLoading, setIsLoading] = useState(true);
     const [tags, setTags] = useState([]);
     const [languages, setLanguages] = useState([]);
-    const [articles, setArticles] = useState([]);
+    const [allArticles, setAllArticles] = useState([]);
 
     const [selectedTag, setSelectedTag] = useState("");
     const [selectedLang, setSelectedLang] = useState("");
@@ -29,8 +29,9 @@ const AllArticlesPage = () => {
 
     const queryStringApi = `?title=${titleQuery}&tag=${tagQuery}&language=${languageQuery}`;
 
-    const fetchData = async () => {
+    const fetchData = async (reset = false) => {
         try {
+            setIsLoading(true);
             const promises = [];
             promises.push(axios.get("/get-tags-langs"));
             promises.push(
@@ -40,7 +41,14 @@ const AllArticlesPage = () => {
             const [tagsAndLangsRes, articleRes] = await Promise.all(promises);
             setTags(tagsAndLangsRes.data.data.tags);
             setLanguages(tagsAndLangsRes.data.data.langs);
-            setArticles([...articles, ...articleRes.data.data.articles]);
+            if (reset) {
+                setAllArticles(articleRes.data.data.articles);
+            } else {
+                setAllArticles([
+                    ...allArticles,
+                    ...articleRes.data.data.articles,
+                ]);
+            }
             setTotalPage(articleRes.data.data.totalPage);
             setIsLoading(false);
             return;
@@ -51,14 +59,21 @@ const AllArticlesPage = () => {
     };
 
     const handleSearch = () => {
+        setPage(1);
         searchNavigate(
             `/get-all-articles?title=${searchTitle}&tag=${selectedTag}&language=${selectedLang}`
         );
     };
 
     useEffect(() => {
-        fetchData();
-    }, [queryStringApi, page]);
+        fetchData(true);
+    }, [queryStringApi]);
+
+    useEffect(() => {
+        if (page > 1) {
+            fetchData();
+        }
+    }, [page]);
 
     return (
         <Master>
@@ -107,55 +122,56 @@ const AllArticlesPage = () => {
                     <>
                         <div className="row p-0 m-0">
                             {/* loop here */}
-                            {articles.map(article => (
-                                <div
-                                    key={article._id}
-                                    className="col-6 pl-0 mt-4"
-                                >
-                                    <Link
-                                        to={`/article/${article.slug}`}
-                                        className="rounded bg-card"
+                            {allArticles &&
+                                allArticles.map(article => (
+                                    <div
+                                        key={article._id}
+                                        className="col-6 pl-0 mt-4"
                                     >
-                                        <img
-                                            className="rounded w-100"
-                                            src={`${globalUrl.host}/images/${article.image}`}
-                                            style={{
-                                                height: "300px",
-                                                objectFit: "contain",
-                                            }}
-                                            alt=""
-                                        />
-                                        <div className="p-4 text-white">
-                                            <h4 className="text-white">
-                                                {article.title}
-                                            </h4>
-                                            <div className="d-flex justify-content-between">
-                                                <button className="btn btn-dark d-flex">
-                                                    <span className="text-success mr-2">
-                                                        <i className="bx bx-happy-heart-eyes" />
-                                                    </span>
-                                                    {article.view_count}
-                                                </button>
-                                                <button className="btn btn-dark d-flex">
-                                                    <span className="text-success mr-2">
-                                                        <i className="bx bx-heart" />
-                                                    </span>
-                                                    {article.like_count}
-                                                </button>
-                                                <button className="btn btn-dark d-flex">
-                                                    <span className="text-success mr-2">
-                                                        <i className="bx bx-message-square-dots" />
-                                                    </span>
-                                                    {article.comment_count}
-                                                </button>
+                                        <Link
+                                            to={`/article/${article.slug}`}
+                                            className="rounded bg-card"
+                                        >
+                                            <img
+                                                className="rounded w-100"
+                                                src={`${globalUrl.host}/images/${article.image}`}
+                                                style={{
+                                                    height: "300px",
+                                                    objectFit: "contain",
+                                                }}
+                                                alt=""
+                                            />
+                                            <div className="p-4 text-white">
+                                                <h4 className="text-white">
+                                                    {article.title}
+                                                </h4>
+                                                <div className="d-flex justify-content-between">
+                                                    <button className="btn btn-dark d-flex">
+                                                        <span className="text-success mr-2">
+                                                            <i className="bx bx-happy-heart-eyes" />
+                                                        </span>
+                                                        {article.view_count}
+                                                    </button>
+                                                    <button className="btn btn-dark d-flex">
+                                                        <span className="text-success mr-2">
+                                                            <i className="bx bx-heart" />
+                                                        </span>
+                                                        {article.like_count}
+                                                    </button>
+                                                    <button className="btn btn-dark d-flex">
+                                                        <span className="text-success mr-2">
+                                                            <i className="bx bx-message-square-dots" />
+                                                        </span>
+                                                        {article.comment_count}
+                                                    </button>
+                                                </div>
                                             </div>
-                                        </div>
-                                    </Link>
-                                </div>
-                            ))}
+                                        </Link>
+                                    </div>
+                                ))}
                         </div>
                         {/* load more */}
-                        {page <= totalPage && (
+                        {page < totalPage && (
                             <div className="row mt-3">
                                 <div className="col-12">
                                     <div className="d-flex justify-content-center">
