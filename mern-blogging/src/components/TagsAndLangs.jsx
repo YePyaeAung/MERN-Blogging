@@ -39,7 +39,7 @@ const TagsAndLangs = () => {
                     <>
                         {tags.map(tag => (
                             <Link
-                                to={`/article?tag=${tag.slug}`}
+                                to={`/get-all-articles?tag=${tag.slug}`}
                                 className="btn btn-sm btn-dark mt-1"
                                 key={tag._id}
                             >
@@ -59,7 +59,7 @@ const TagsAndLangs = () => {
                     <>
                         {languages.map(language => (
                             <Link
-                                to={`/article?language=${language.slugs}`}
+                                to={`/get-all-articles?language=${language.slug}`}
                                 className="btn btn-sm btn-dark mt-1"
                                 key={language._id}
                             >

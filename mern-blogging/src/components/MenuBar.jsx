@@ -24,36 +24,36 @@ const MenuBar = () => {
         <>
             {auth ? (
                 <>
-                    <Link to={"/"} className="btn btn-primary text-white">
+                    <Link to={"/"} className="btn btn-primary text-white mb-2">
                         Home
                     </Link>
                     <Link
                         to={"/get-all-articles"}
-                        className="btn btn-primary text-white"
+                        className="btn btn-primary text-white mb-2"
                     >
                         All Articles
                     </Link>
                     <Link
                         to={"/profile"}
-                        className="btn btn-primary text-white"
+                        className="btn btn-primary text-white mb-2"
                     >
                         Profile ({authUser.name})
                     </Link>
                     <button
                         onClick={logout}
-                        className="btn btn-primary text-white"
+                        className="btn btn-primary text-white mb-2"
                     >
                         Logout
                     </button>
                 </>
             ) : (
                 <>
-                    <Link to={"/login"} className="btn btn-primary text-white">
+                    <Link to={"/login"} className="btn btn-primary text-white mb-2">
                         Login
                     </Link>
                     <Link
                         to={"/register"}
-                        className="btn btn-primary text-white"
+                        className="btn btn-primary text-white mb-2"
                     >
                         Register
                     </Link>
