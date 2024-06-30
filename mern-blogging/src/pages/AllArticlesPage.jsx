@@ -32,7 +32,8 @@ const AllArticlesPage = () => {
     const fetchData = async (reset = false) => {
         try {
             setIsLoading(true);
-            const promises = [];
+            setTimeout(async() => {
+                const promises = [];
             promises.push(axios.get("/get-tags-langs"));
             promises.push(
                 axios.get(`/get-all-articles/${queryStringApi}&page=${page}`)
@@ -51,6 +52,7 @@ const AllArticlesPage = () => {
             }
             setTotalPage(articleRes.data.data.totalPage);
             setIsLoading(false);
+            }, 1000);
             return;
         } catch (error) {
             toast.error("Failed to fetch data!", toastOptions);
