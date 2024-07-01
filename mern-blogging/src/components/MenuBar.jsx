@@ -22,11 +22,11 @@ const MenuBar = () => {
 
     return (
         <>
+            <Link to={"/"} className="btn btn-primary text-white mb-2">
+                Home
+            </Link>
             {auth ? (
                 <>
-                    <Link to={"/"} className="btn btn-primary text-white mb-2">
-                        Home
-                    </Link>
                     <Link
                         to={"/get-all-articles"}
                         className="btn btn-primary text-white mb-2"
@@ -48,7 +48,10 @@ const MenuBar = () => {
                 </>
             ) : (
                 <>
-                    <Link to={"/login"} className="btn btn-primary text-white mb-2">
+                    <Link
+                        to={"/login"}
+                        className="btn btn-primary text-white mb-2"
+                    >
                         Login
                     </Link>
                     <Link

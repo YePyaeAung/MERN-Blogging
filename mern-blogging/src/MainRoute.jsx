@@ -8,7 +8,7 @@ import ProfilePage from "./pages/ProfilePage";
 import RedirectIfNotAuth from "./pages/RouteMiddleware/RedirectIfNotAuth";
 import RedirectIfAuth from "./pages/RouteMiddleware/RedirectIfAuth";
 import EditArticlePage from "./pages/Profile/EditArticlePage";
-import SingleArticlePage from "./pages/Profile/SingleArticlePage";
+import SingleArticlePage from "./pages/SingleArticlePage";
 import AllArticlesPage from "./pages/AllArticlesPage";
 
 const MainRoute = () => {
@@ -17,7 +17,14 @@ const MainRoute = () => {
             <AuthContextProvider>
                 <Routes>
                     <Route path="/" element={<HomePage />} />
-                    <Route path="/get-all-articles" element={<AllArticlesPage />} />
+                    <Route
+                        path="/get-all-articles"
+                        element={<AllArticlesPage />}
+                    />
+                    <Route
+                        path="/article/:slug"
+                        element={<SingleArticlePage />}
+                    />
                     <Route
                         path="/register"
                         element={
@@ -47,14 +54,6 @@ const MainRoute = () => {
                         element={
                             <RedirectIfNotAuth>
                                 <EditArticlePage />
-                            </RedirectIfNotAuth>
-                        }
-                    />
-                    <Route
-                        path="/article/:slug"
-                        element={
-                            <RedirectIfNotAuth>
-                                <SingleArticlePage />
                             </RedirectIfNotAuth>
                         }
                     />

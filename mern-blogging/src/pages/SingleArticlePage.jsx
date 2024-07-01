@@ -1,12 +1,12 @@
 import { Link, useNavigate, useParams } from "react-router-dom";
-import globalUrl from "../../data/globalUrl";
-import Master from "../layout/Master";
+import globalUrl from "../data/globalUrl";
+import Master from "./layout/Master";
 import { useContext, useEffect, useState } from "react";
 import axios from "axios";
 import { toast } from "react-toastify";
-import { toastOptions } from "../../utils/ToastOptions";
-import Loader from "../../components/Loader";
-import AuthContext from "../../contexts/AuthContext";
+import { toastOptions } from "../utils/ToastOptions";
+import Loader from "../components/Loader";
+import AuthContext from "../contexts/AuthContext";
 
 const SingleArticlePage = () => {
     const [article, setArticle] = useState([]);
@@ -15,10 +15,14 @@ const SingleArticlePage = () => {
     const { slug } = useParams();
     const { auth } = useContext(AuthContext);
 
+    const [comment, setComment] = useState("");
+    const [commentLoader, setCommentLoader] = useState(false);
+    const [commentSubmitted, setCommentSubmitted] = useState(false);
+
     const getSingleArticle = async () => {
         try {
             setIsLoading(true);
-            const { data } = await axios.get(`/auth/article/${slug}`);
+            const { data } = await axios.get(`/article/${slug}`);
             setArticle(data.data);
             setIsLoading(false);
         } catch (error) {
@@ -34,9 +38,35 @@ const SingleArticlePage = () => {
         return textContent;
     };
 
+    const storeComment = async () => {
+        try {
+            setCommentLoader(true);
+            setTimeout(async () => {
+                const { data } = await axios.post(
+                    `${globalUrl.host}/api/comment/store`,
+                    { comment, article_id: article._id }
+                );
+                if (data.data.auth == 0) {
+                    return toast.error("Please Login First!", toastOptions);
+                }
+                setCommentLoader(false);
+                setComment("");
+                setCommentSubmitted(true);
+                return toast.success(data.message, toastOptions);
+            }, 500);
+        } catch (error) {
+            setCommentLoader(false);
+            return toast.error("Something went wrong!", toastOptions);
+        }
+    };
+
     useEffect(() => {
         getSingleArticle();
-    }, [slug]);
+    }, [slug, commentSubmitted]);
+
+    useEffect(() => {
+        setCommentSubmitted(false);
+    }, [article]);
 
     return (
         <Master>
@@ -144,18 +174,37 @@ const SingleArticlePage = () => {
                                     </p>
                                 </div>
                                 {/* Comment Form */}
-                                <form className="mb-4 ">
+                                <form
+                                    className="mb-4"
+                                    onSubmit={e => {
+                                        e.preventDefault();
+                                        storeComment();
+                                    }}
+                                >
                                     <div className="input-group">
                                         <textarea
+                                            value={comment}
+                                            onChange={e =>
+                                                setComment(e.target.value)
+                                            }
                                             className="form-control border border-dark bg-dark"
                                             placeholder="Add a comment..."
                                         />
-                                        <button
-                                            type="submit"
-                                            className="btn btn-outline-primary"
-                                        >
-                                            <i className="bx bxs-send"></i>
-                                        </button>
+                                        {commentLoader ? (
+                                            <button
+                                                disabled
+                                                className="btn btn-outline-primary"
+                                            >
+                                                <Loader />
+                                            </button>
+                                        ) : (
+                                            <button
+                                                type="submit"
+                                                className="btn btn-outline-primary"
+                                            >
+                                                <i className="bx bxs-send"></i>
+                                            </button>
+                                        )}
                                     </div>
                                 </form>
                             </div>

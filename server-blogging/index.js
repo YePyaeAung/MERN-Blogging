@@ -3,12 +3,12 @@ import dotenv from "dotenv";
 import AuthRouter from "./routes/AuthRouter.js";
 import ArticleRouter from "./routes/ArticleRouter.js";
 import mongoose from "mongoose";
-import { errorJson, successJson } from "./utils/JsonResponse.js";
 import cookieParser from "cookie-parser";
 import cors from "cors";
 import fileUpload from "express-fileupload";
 import ProfileRouter from "./routes/ProfileRouter.js";
 import DataRouter from "./routes/DataRouter.js";
+import CommentRouter from "./routes/CommentRouter.js";
 import ArticleCommentModel from "./models/ArticleCommentModel.js";
 
 const app = express();
@@ -42,6 +42,7 @@ app.use("/api", AuthRouter);
 app.use("/api/auth/article", ArticleRouter);
 app.use("/api/auth", ProfileRouter);
 app.use("/api", DataRouter);
+app.use("/api/comment", CommentRouter);
 
 // test route
 app.get("/create-comment", async (req, res) => {
