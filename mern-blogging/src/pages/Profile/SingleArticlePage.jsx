@@ -125,6 +125,40 @@ const SingleArticlePage = () => {
                                     )}
                                 </p>
                             </div>
+                            {/* Comment Lists */}
+                            <div className="col-12 my-3">
+                                <h5 className="text-primary">Comment Lists:</h5>
+                                {/* Comment Loops */}
+                                <div className="mb-3 p-3 border border-dark rounded">
+                                    <div className="d-flex justify-content-between align-items-center">
+                                        <h6 className="">User Name</h6>
+                                        <small className="text-muted">
+                                            23-3-2024
+                                        </small>
+                                    </div>
+                                    <p>
+                                        Lorem ipsum dolor sit amet consectetur,
+                                        adipisicing elit. Culpa reiciendis fugit
+                                        ipsum nulla sit quidem quam harum
+                                        temporibus assumenda voluptatibus.
+                                    </p>
+                                </div>
+                                {/* Comment Form */}
+                                <form className="mb-4 ">
+                                    <div className="input-group">
+                                        <textarea
+                                            className="form-control border border-dark bg-dark"
+                                            placeholder="Add a comment..."
+                                        />
+                                        <button
+                                            type="submit"
+                                            className="btn btn-outline-primary"
+                                        >
+                                            <i className="bx bxs-send"></i>
+                                        </button>
+                                    </div>
+                                </form>
+                            </div>
                             <div className="col-12">
                                 <button
                                     className="btn btn-primary"
