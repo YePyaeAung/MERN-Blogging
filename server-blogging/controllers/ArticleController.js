@@ -49,22 +49,6 @@ export const all = async (req, res) => {
     }
 };
 
-export const show = async (req, res) => {
-    try {
-        const { slug } = req.params;
-        await ArticleModel.findOneAndUpdate(
-            { slug },
-            {
-                $inc: { view_count: 1 },
-            }
-        );
-        const article = await ArticleModel.findOne({ slug });
-        res.json(successJson("Get Single Article Successfully!", article));
-    } catch (error) {
-        res.json(errorJson("Something went wrong!", null));
-    }
-};
-
 export const store = async (req, res) => {
     try {
         const { files, body } = req;
