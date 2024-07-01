@@ -9,6 +9,7 @@ import cors from "cors";
 import fileUpload from "express-fileupload";
 import ProfileRouter from "./routes/ProfileRouter.js";
 import DataRouter from "./routes/DataRouter.js";
+import ArticleCommentModel from "./models/ArticleCommentModel.js";
 
 const app = express();
 
@@ -43,12 +44,19 @@ app.use("/api/auth", ProfileRouter);
 app.use("/api", DataRouter);
 
 // test route
-app.get("/test/success", async (req, res) => {
-    res.json(successJson("Successful", { data: 1 }));
+app.get("/create-comment", async (req, res) => {
+    const data = await ArticleCommentModel.create({
+        article: "6652401190c49f0a16588058",
+        user: "6662dd294e14cb619ce6b93d",
+        comment: "Thanks for Sharing...",
+    });
+    return res.json(data);
 });
-
-app.get("/test/error", (req, res) => {
-    res.json(errorJson("Failed", { data: 0 }));
+app.get("/show-comments", async (req, res) => {
+    const comments = await ArticleCommentModel.find()
+        .populate("user", "-password")
+        .populate("article");
+    res.json(comments);
 });
 
 app.listen(port, () => {
