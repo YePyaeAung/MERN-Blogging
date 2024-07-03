@@ -1,6 +1,7 @@
 import LanguageModel from "../models/LanguageModel.js";
 import TagModel from "../models/TagModel.js";
 import ArticleModel from "../models/ArticleModel.js";
+import ArticleCommentModel from "../models/ArticleCommentModel.js";
 import { errorJson, successJson } from "../utils/JsonResponse.js";
 
 const DataController = {
@@ -114,7 +115,15 @@ const DataController = {
             if (!article) {
                 return res.json(errorJson("Article Not Found!", null));
             }
-            res.json(successJson("Get Single Article Successfully!", article));
+            const comments = await ArticleCommentModel.find()
+                .populate("user", "-password -email")
+                .sort({ _id: -1 });
+            res.json(
+                successJson("Get Single Article Successfully!", {
+                    article,
+                    comments,
+                })
+            );
         } catch (error) {
             res.json(errorJson("Something went wrong!", null));
         }
