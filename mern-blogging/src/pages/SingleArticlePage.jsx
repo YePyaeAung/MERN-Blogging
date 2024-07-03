@@ -7,6 +7,7 @@ import { toast } from "react-toastify";
 import { toastOptions } from "../utils/ToastOptions";
 import Loader from "../components/Loader";
 import AuthContext from "../contexts/AuthContext";
+import moment from "moment";
 
 const SingleArticlePage = () => {
     const [article, setArticle] = useState([]);
@@ -19,13 +20,14 @@ const SingleArticlePage = () => {
     const [commentLoader, setCommentLoader] = useState(false);
     const [commentSubmitted, setCommentSubmitted] = useState(false);
 
-    console.log(article);
+    const [comments, setComments] = useState([]);
 
     const getSingleArticle = async () => {
         try {
             setIsLoading(true);
             const { data } = await axios.get(`/article/${id}`);
-            setArticle(data.data);
+            setArticle(data.data.article);
+            setComments(data.data.comments);
             setIsLoading(false);
         } catch (error) {
             toast.error("Failed to fetch Single Article!", toastOptions);
@@ -157,60 +159,7 @@ const SingleArticlePage = () => {
                                     )}
                                 </p>
                             </div>
-                            {/* Comment Lists */}
-                            <div className="col-12 my-3">
-                                <h5 className="text-primary">Comment Lists:</h5>
-                                {/* Comment Loops */}
-                                <div className="mb-3 p-3 border border-dark rounded">
-                                    <div className="d-flex justify-content-between align-items-center">
-                                        <h6 className="">User Name</h6>
-                                        <small className="text-muted">
-                                            23-3-2024
-                                        </small>
-                                    </div>
-                                    <p>
-                                        Lorem ipsum dolor sit amet consectetur,
-                                        adipisicing elit. Culpa reiciendis fugit
-                                        ipsum nulla sit quidem quam harum
-                                        temporibus assumenda voluptatibus.
-                                    </p>
-                                </div>
-                                {/* Comment Form */}
-                                <form
-                                    className="mb-4"
-                                    onSubmit={e => {
-                                        e.preventDefault();
-                                        storeComment();
-                                    }}
-                                >
-                                    <div className="input-group">
-                                        <textarea
-                                            value={comment}
-                                            onChange={e =>
-                                                setComment(e.target.value)
-                                            }
-                                            className="form-control border border-dark bg-dark"
-                                            placeholder="Add a comment..."
-                                        />
-                                        {commentLoader ? (
-                                            <button
-                                                disabled
-                                                className="btn btn-outline-primary"
-                                            >
-                                                <Loader />
-                                            </button>
-                                        ) : (
-                                            <button
-                                                type="submit"
-                                                className="btn btn-outline-primary"
-                                            >
-                                                <i className="bx bxs-send"></i>
-                                            </button>
-                                        )}
-                                    </div>
-                                </form>
-                            </div>
-                            <div className="col-12">
+                            <div className="col-12 mb-4">
                                 <button
                                     className="btn btn-primary"
                                     onClick={() => {
@@ -219,6 +168,63 @@ const SingleArticlePage = () => {
                                 >
                                     Back
                                 </button>
+                            </div>
+                            {/* Comment Form */}
+                            <form
+                                className="col-12 my-3"
+                                onSubmit={e => {
+                                    e.preventDefault();
+                                    storeComment();
+                                }}
+                            >
+                                <div className="input-group">
+                                    <textarea
+                                        value={comment}
+                                        onChange={e =>
+                                            setComment(e.target.value)
+                                        }
+                                        className="form-control border border-dark bg-dark"
+                                        placeholder="Add a comment..."
+                                    />
+                                    {commentLoader ? (
+                                        <button
+                                            disabled
+                                            className="btn btn-outline-primary"
+                                        >
+                                            <Loader />
+                                        </button>
+                                    ) : (
+                                        <button
+                                            type="submit"
+                                            className="btn btn-outline-primary"
+                                        >
+                                            <i className="bx bxs-send"></i>
+                                        </button>
+                                    )}
+                                </div>
+                            </form>
+                            {/* Comment Lists */}
+                            <div className="col-12 my-3">
+                                <h5 className="text-primary">Comment Lists:</h5>
+                                {/* Comment Loops */}
+                                {comments.map(comment => (
+                                    <div
+                                        key={comment._id}
+                                        className="mb-3 p-3 border border-dark rounded"
+                                    >
+                                        <div className="d-flex justify-content-between align-items-center">
+                                            <h6 className="">
+                                                {comment.user.name}
+                                            </h6>
+                                            <small className="text-muted">
+                                                {moment(
+                                                    comment.createdAt
+                                                ).fromNow()}
+                                            </small>
+                                        </div>
+                                        <p>{comment.comment}</p>
+                                    </div>
+                                ))}
                             </div>
                         </div>
                     </div>
