@@ -106,14 +106,14 @@ const DataController = {
     },
     getArticleDetails: async (req, res) => {
         try {
-            const { slug } = req.params;
-            await ArticleModel.findOneAndUpdate(
-                { slug },
-                {
-                    $inc: { view_count: 1 },
-                }
-            );
-            const article = await ArticleModel.findOne({ slug });
+            const { id } = req.params;
+            await ArticleModel.findByIdAndUpdate(id, {
+                $inc: { view_count: 1 },
+            });
+            const article = await ArticleModel.findById(id);
+            if (!article) {
+                return res.json(errorJson("Article Not Found!", null));
+            }
             res.json(successJson("Get Single Article Successfully!", article));
         } catch (error) {
             res.json(errorJson("Something went wrong!", null));

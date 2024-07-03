@@ -89,7 +89,7 @@ const HomePage = () => {
                         {latestArticles.map(article => (
                             <div key={article._id} className="col-6 pl-0 mt-4">
                                 <Link
-                                    to={`/article/${article.slug}`}
+                                    to={`/article/${article._id}`}
                                     className="rounded bg-card"
                                 >
                                     <img

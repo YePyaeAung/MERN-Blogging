@@ -22,7 +22,7 @@ const MainRoute = () => {
                         element={<AllArticlesPage />}
                     />
                     <Route
-                        path="/article/:slug"
+                        path="/article/:id"
                         element={<SingleArticlePage />}
                     />
                     <Route
@@ -50,7 +50,7 @@ const MainRoute = () => {
                         }
                     />
                     <Route
-                        path="/edit/article/:slug"
+                        path="/edit/article/:id"
                         element={
                             <RedirectIfNotAuth>
                                 <EditArticlePage />

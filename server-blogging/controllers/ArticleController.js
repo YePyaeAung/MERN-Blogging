@@ -91,8 +91,8 @@ export const store = async (req, res) => {
 
 export const edit = async (req, res) => {
     try {
-        const { slug } = req.params;
-        const article = await ArticleModel.findOne({ slug });
+        const { id } = req.params;
+        const article = await ArticleModel.findById(id);
         res.json(successJson("Get Article Successfully!", article));
     } catch (error) {
         res.json(errorJson(error.message, null));
@@ -102,7 +102,7 @@ export const edit = async (req, res) => {
 export const update = async (req, res) => {
     try {
         const { files, body, params } = req;
-        const dbData = await ArticleModel.findOne({ slug: params.slug });
+        const dbData = await ArticleModel.findById(params.id);
         if (files) {
             // upload image
             var fileName = files.image.name;
@@ -130,17 +130,14 @@ export const update = async (req, res) => {
             $or: languagesQuery,
         });
         // article store
-        const article = await ArticleModel.findOneAndUpdate(
-            { slug: params.slug },
-            {
-                slug: slug(body.title),
-                title: body.title,
-                image: fileName,
-                tags: findTags,
-                languages: findLanguages,
-                description: body.description,
-            }
-        );
+        const article = await ArticleModel.findByIdAndUpdate(params.id, {
+            slug: slug(body.title),
+            title: body.title,
+            image: fileName,
+            tags: findTags,
+            languages: findLanguages,
+            description: body.description,
+        });
         res.json(successJson("Article Updated!", fileName));
     } catch (error) {
         res.json(errorJson(error.message, null));
@@ -149,8 +146,8 @@ export const update = async (req, res) => {
 
 export const destroy = async (req, res) => {
     try {
-        const { slug } = req.params;
-        await ArticleModel.deleteOne({ slug });
+        const { id } = req.params;
+        await ArticleModel.findByIdAndDelete(id);
         res.json(successJson("Deleted Successfully!", null));
     } catch (error) {
         res.json(errorJson(error.message, null));
