@@ -12,17 +12,19 @@ const SingleArticlePage = () => {
     const [article, setArticle] = useState([]);
     const [isLoading, setIsLoading] = useState(true);
     const navigate = useNavigate();
-    const { slug } = useParams();
+    const { id } = useParams();
     const { auth } = useContext(AuthContext);
 
     const [comment, setComment] = useState("");
     const [commentLoader, setCommentLoader] = useState(false);
     const [commentSubmitted, setCommentSubmitted] = useState(false);
 
+    console.log(article);
+
     const getSingleArticle = async () => {
         try {
             setIsLoading(true);
-            const { data } = await axios.get(`/article/${slug}`);
+            const { data } = await axios.get(`/article/${id}`);
             setArticle(data.data);
             setIsLoading(false);
         } catch (error) {
@@ -62,7 +64,7 @@ const SingleArticlePage = () => {
 
     useEffect(() => {
         getSingleArticle();
-    }, [slug, commentSubmitted]);
+    }, [id, commentSubmitted]);
 
     useEffect(() => {
         setCommentSubmitted(false);
@@ -78,7 +80,7 @@ const SingleArticlePage = () => {
                         {auth && (
                             <div className="mb-3">
                                 <Link
-                                    to={`/edit/article/${slug}`}
+                                    to={`/edit/article/${id}`}
                                     className="btn btn-outline-warning float-right"
                                 >
                                     Edit

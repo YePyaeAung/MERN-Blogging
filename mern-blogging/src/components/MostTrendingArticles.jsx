@@ -38,7 +38,7 @@ const MostTrendingArticles = () => {
                 <div className="row">
                     {trendingArticles.map(article => (
                         <Link
-                            to={`/article/${article.slug}`}
+                            to={`/article/${article._id}`}
                             key={article._id}
                             className="col-6"
                         >

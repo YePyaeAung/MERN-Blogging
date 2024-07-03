@@ -103,7 +103,7 @@ const ArticleListsPage = () => {
                                         </div>
                                         <div className="d-flex justify-content-end">
                                             <Link
-                                                to={`/article/${article.slug}`}
+                                                to={`/article/${article._id}`}
                                                 className="btn btn-outline-primary btn-dark d-flex justify-content-center align-items-center"
                                                 style={{
                                                     width: "40px",
@@ -115,7 +115,7 @@ const ArticleListsPage = () => {
                                                 </span>
                                             </Link>
                                             <Link
-                                                to={`/edit/article/${article.slug}`}
+                                                to={`/edit/article/${article._id}`}
                                                 className="btn btn-outline-primary btn-dark d-flex justify-content-center align-items-center"
                                                 style={{
                                                     width: "40px",
@@ -128,7 +128,7 @@ const ArticleListsPage = () => {
                                             </Link>
                                             <button
                                                 onClick={() => {
-                                                    removeArticle(article.slug);
+                                                    removeArticle(article._id);
                                                 }}
                                                 className="btn btn-outline-primary btn-dark d-flex justify-content-center align-items-center"
                                                 style={{

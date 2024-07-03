@@ -11,6 +11,6 @@ router.get(
 );
 router.get("/get-most-love-articles", DataController.getMostLoveArticles);
 router.get("/get-all-articles", DataController.getAllArticles);
-router.get("/article/:slug", DataController.getArticleDetails);
+router.get("/article/:id", DataController.getArticleDetails);
 
 export default router;

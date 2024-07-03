@@ -25,14 +25,14 @@ const EditArticlePage = () => {
     const [dbTags, setDbTags] = useState([]);
     const [dbLanguages, setDbLanguages] = useState([]);
 
-    const { slug } = useParams();
+    const { id } = useParams();
     const navigate = useNavigate();
 
     const fetchData = async () => {
         try {
             const promises = [];
             promises.push(axios.get("/auth/article/tags-languages"));
-            promises.push(axios.get(`/auth/article/edit/${slug}`));
+            promises.push(axios.get(`/auth/article/edit/${id}`));
 
             const [tagsAndLangsRes, articleRes] = await Promise.all(promises);
             const tagsAndLangsData = tagsAndLangsRes.data.data;
@@ -90,7 +90,7 @@ const EditArticlePage = () => {
         formData.append("description", description);
         try {
             const response = await axios.post(
-                `/auth/article/update/${slug}`,
+                `/auth/article/update/${id}`,
                 formData
             );
             if (response.data.success) {
