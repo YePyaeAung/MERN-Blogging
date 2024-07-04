@@ -22,6 +22,8 @@ const SingleArticlePage = () => {
 
     const [comments, setComments] = useState([]);
 
+    const [isLiked, setIsLiked] = useState(false);
+
     const getSingleArticle = async () => {
         try {
             setIsLoading(true);
@@ -61,6 +63,19 @@ const SingleArticlePage = () => {
         } catch (error) {
             setCommentLoader(false);
             return toast.error("Something went wrong!", toastOptions);
+        }
+    };
+
+    const handleLike = async () => {
+        try {
+            setIsLiked(true);
+            await axios.post(`${globalUrl.host}/api/auth/article/like`, {
+                article_id: article._id,
+            });
+            setArticle({ ...article, like_count: article.like_count + 1 });
+            toast.success("Article Liked!", toastOptions);
+        } catch (error) {
+            toast.error("Something went wrong!", toastOptions);
         }
     };
 
@@ -113,8 +128,18 @@ const SingleArticlePage = () => {
                                         <div>{article.view_count}</div>
                                     </div>
                                     <div className="d-flex">
-                                        <span className="text-success mr-2">
-                                            <i className="bx bx-heart text-danger" />
+                                        <span
+                                            className="text-success mr-2"
+                                            style={{ cursor: "pointer" }}
+                                            onClick={handleLike}
+                                        >
+                                            <i
+                                                className={`bx ${
+                                                    isLiked
+                                                        ? "bxs-heart"
+                                                        : "bx-heart"
+                                                } text-danger`}
+                                            />
                                         </span>
                                         <div>{article.like_count}</div>
                                     </div>
