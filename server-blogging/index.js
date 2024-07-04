@@ -10,6 +10,7 @@ import ProfileRouter from "./routes/ProfileRouter.js";
 import DataRouter from "./routes/DataRouter.js";
 import CommentRouter from "./routes/CommentRouter.js";
 import ArticleCommentModel from "./models/ArticleCommentModel.js";
+import ArticleLikeRouter from "./routes/ArticleLikeRouter.js";
 
 const app = express();
 
@@ -43,6 +44,7 @@ app.use("/api/auth/article", ArticleRouter);
 app.use("/api/auth", ProfileRouter);
 app.use("/api", DataRouter);
 app.use("/api/comment", CommentRouter);
+app.use("/api/auth/article", ArticleLikeRouter);
 
 // test route
 app.get("/create-comment", async (req, res) => {
