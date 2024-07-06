@@ -51,7 +51,7 @@ export const all = async (req, res) => {
 
 export const store = async (req, res) => {
     try {
-        const { files, body } = req;
+        const { files, body, authUser } = req;
         // upload image
         const fileName = files.image.name;
         const filePath = "public/images/" + fileName;
@@ -82,6 +82,7 @@ export const store = async (req, res) => {
             tags: findTags,
             languages: findLanguages,
             description: body.description,
+            user: authUser._id,
         });
         res.json(successJson("Article Created!", article));
     } catch (error) {

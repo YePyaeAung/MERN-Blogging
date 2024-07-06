@@ -11,6 +11,7 @@ import DataRouter from "./routes/DataRouter.js";
 import CommentRouter from "./routes/CommentRouter.js";
 import ArticleCommentModel from "./models/ArticleCommentModel.js";
 import ArticleLikeRouter from "./routes/ArticleLikeRouter.js";
+import ArticleModel from "./models/ArticleModel.js";
 
 const app = express();
 
@@ -47,19 +48,13 @@ app.use("/api/comment", CommentRouter);
 app.use("/api/auth/article", ArticleLikeRouter);
 
 // test route
-app.get("/create-comment", async (req, res) => {
-    const data = await ArticleCommentModel.create({
-        article: "6652401190c49f0a16588058",
-        user: "6662dd294e14cb619ce6b93d",
-        comment: "Thanks for Sharing...",
-    });
-    return res.json(data);
-});
-app.get("/show-comments", async (req, res) => {
-    const comments = await ArticleCommentModel.find()
-        .populate("user", "-password")
-        .populate("article");
-    res.json(comments);
+app.get("/article/test", async (req, res) => {
+    const data = await ArticleModel.updateMany(
+        {},
+        { user: "6662dd294e14cb619ce6b93d" }
+    );
+    const article_user = await ArticleModel.find().populate("user", "name");
+    return res.json(article_user);
 });
 
 app.listen(port, () => {
