@@ -67,7 +67,6 @@ const HomePage = () => {
                                 alt="Fullstack blog"
                             />
                             <div className="p-3">
-                                {/* {console.log(mostCommentArticle.tags)} */}
                                 {mostCommentArticle?.tags?.map(tag => (
                                     <b
                                         key={tag._id}
@@ -79,44 +78,24 @@ const HomePage = () => {
                                 <h3 className="text-white">
                                     {mostCommentArticle.title}
                                 </h3>
-                                <p
-                                    className="text-mute"
-                                    dangerouslySetInnerHTML={{
-                                        __html:
-                                            mostCommentArticle?.description?.slice(
-                                                0,
-                                                456
-                                            ) + ".....",
-                                    }}
-                                >
-                                    {/* {convertHtmlToFirst50Words(
-                                    mostCommentArticle.description
-                                )}
-                                ... */}
+                                <p className="text-muted">
+                                    {convertHtmlToFirst50Words(
+                                        mostCommentArticle.description
+                                    )}
+                                    ...
                                 </p>
                                 <div className="d-flex justify-content-between">
-                                    <div>
-                                        <a
-                                            href="#"
-                                            className="text-muted d-flex"
-                                        >
-                                            <i className="bx bx-user mr-2" />
-                                            <small>
-                                                {/* {console.log(mostCommentArticle)} */}
-                                                {mostCommentArticle?.user?.name}
-                                            </small>
-                                        </a>
+                                    <div className="text-primary d-flex">
+                                        <i className="bx bx-user mr-2" />
+                                        <small>
+                                            {mostCommentArticle?.user?.name}
+                                        </small>
                                     </div>
-                                    <div>
-                                        <a
-                                            href="#"
-                                            className="text-muted d-flex"
-                                        >
-                                            <i className="bx bx-happy-heart-eyes mr-2" />
-                                            <small>
-                                                {mostCommentArticle.view_count}
-                                            </small>
-                                        </a>
+                                    <div className="text-success d-flex">
+                                        <i className="bx bx-happy-heart-eyes mr-2" />
+                                        <small>
+                                            {mostCommentArticle.view_count}
+                                        </small>
                                     </div>
                                 </div>
                             </div>

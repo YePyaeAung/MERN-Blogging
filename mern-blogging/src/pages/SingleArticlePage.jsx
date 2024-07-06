@@ -14,7 +14,7 @@ const SingleArticlePage = () => {
     const [isLoading, setIsLoading] = useState(true);
     const navigate = useNavigate();
     const { id } = useParams();
-    const { auth } = useContext(AuthContext);
+    const { auth, authUser } = useContext(AuthContext);
 
     const [comment, setComment] = useState("");
     const [commentLoader, setCommentLoader] = useState(false);
@@ -34,14 +34,6 @@ const SingleArticlePage = () => {
         } catch (error) {
             toast.error("Failed to fetch Single Article!", toastOptions);
         }
-    };
-
-    const convertHtmlToPlainText = html => {
-        const tempElement = document.createElement("div");
-        tempElement.innerHTML = html;
-        const textContent =
-            tempElement.textContent || tempElement.innerText || "";
-        return textContent;
     };
 
     const storeComment = async () => {
@@ -87,6 +79,8 @@ const SingleArticlePage = () => {
         setCommentSubmitted(false);
     }, [article]);
 
+    console.log(article);
+
     return (
         <Master>
             {isLoading ? (
@@ -94,7 +88,7 @@ const SingleArticlePage = () => {
             ) : (
                 <div className="row">
                     <div className="col-12 card bg-dark p-3">
-                        {auth && (
+                        {authUser._id == article.user._id && (
                             <div className="mb-3">
                                 <Link
                                     to={`/edit/article/${id}`}
@@ -151,6 +145,15 @@ const SingleArticlePage = () => {
                                     </div>
                                 </div>
                             </div>
+                            <div className="col-12 my-3 d-flex justify-content-start align-items-center">
+                                <div className="mr-2">
+                                    <i className=" text-primary bx bx-user mr-2" />
+                                    <small>Posted By</small>
+                                </div>
+                                <div className="text-primary">
+                                    {article.user.name}
+                                </div>
+                            </div>
                             <div className="d-flex justify-content-between">
                                 <div className="col-6">
                                     <h6 className="text-primary">Tags</h6>
@@ -178,11 +181,12 @@ const SingleArticlePage = () => {
                                 </div>
                             </div>
                             <div className="col-12 my-5">
-                                <p className="">
-                                    {convertHtmlToPlainText(
-                                        article.description
-                                    )}
-                                </p>
+                                <p
+                                    className=""
+                                    dangerouslySetInnerHTML={{
+                                        __html: article.description,
+                                    }}
+                                ></p>
                             </div>
                             <div className="col-12 mb-4">
                                 <button
