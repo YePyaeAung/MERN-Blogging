@@ -116,7 +116,10 @@ const DataController = {
             await ArticleModel.findByIdAndUpdate(id, {
                 $inc: { view_count: 1 },
             });
-            const article = await ArticleModel.findById(id);
+            const article = await ArticleModel.findById(id).populate(
+                "user",
+                "name"
+            );
             if (!article) {
                 return res.json(errorJson("Article Not Found!", null));
             }
