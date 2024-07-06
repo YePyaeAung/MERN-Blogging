@@ -24,11 +24,16 @@ const DataController = {
             const latest_articles = await ArticleModel.find()
                 .limit(4)
                 .sort({ _id: -1 });
+            const mostCommentArticle = await ArticleModel.findOne()
+                .populate("user", "name")
+                .sort({
+                    comment_count: -1,
+                });
             return res.json(
-                successJson(
-                    "Get Latest Articles Successfully!",
-                    latest_articles
-                )
+                successJson("Get Latest Articles Successfully!", {
+                    latest_articles,
+                    mostCommentArticle,
+                })
             );
         } catch (error) {
             return res.json(
