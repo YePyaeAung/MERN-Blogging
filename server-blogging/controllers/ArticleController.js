@@ -38,7 +38,10 @@ export const all = async (req, res) => {
         const { page } = req.query;
         const limit = 5;
         const skip = (page - 1) * limit;
-        const articles = await ArticleModel.find().limit(limit).skip(skip);
+        const articles = await ArticleModel.find({ user: req.authUser._id })
+            .populate("user", "name")
+            .limit(limit)
+            .skip(skip);
         const articleCount = await ArticleModel.countDocuments();
         const totalPage = Math.ceil(articleCount / limit);
         res.json(

@@ -123,7 +123,7 @@ const DataController = {
             if (!article) {
                 return res.json(errorJson("Article Not Found!", null));
             }
-            const comments = await ArticleCommentModel.find()
+            const comments = await ArticleCommentModel.find({ article: id })
                 .populate("user", "-password -email")
                 .sort({ _id: -1 });
             res.json(
