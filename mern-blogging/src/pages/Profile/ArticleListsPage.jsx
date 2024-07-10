@@ -53,124 +53,147 @@ const ArticleListsPage = () => {
                 </div>
             ) : (
                 <>
-                    <div className="row mt-5">
-                        {/* article list */}
-                        {articles.map(article => (
-                            <div key={article._id} className="col-12 mt-3">
-                                <div className="card bg-dark d-flex flex-row">
-                                    <img
-                                        src={`${globalUrl.host}/images/${article.image}`}
-                                        alt=""
-                                        className="w-50"
-                                        style={{
-                                            height: "300px",
-                                            objectFit: "cover",
-                                        }}
-                                    />
-                                    <div className="ml-3 p-3 d-flex flex-column justify-content-between">
-                                        <h3 className="d-flex text-white">
-                                            {article.title}
-                                        </h3>
-                                        <div className="d-flex justify-content-between">
-                                            <div className="d-flex">
-                                                <span className="text-success mr-2">
-                                                    <i className="bx bx-happy-heart-eyes" />
-                                                </span>
-                                                <div>{article.view_count}</div>
-                                            </div>
-                                            <div className="d-flex">
-                                                <span className="text-success mr-2">
-                                                    <i className="bx bx-heart text-danger" />
-                                                </span>
-                                                <div>{article.like_count}</div>
-                                            </div>
-                                            <div className="d-flex">
-                                                <span className="text-success mr-2">
-                                                    <i className="bx bx-message-square-dots text-primary" />
-                                                </span>
-                                                <div>
-                                                    {article.comment_count}
+                    {articles.length != 0 ? (
+                        <>
+                            <div className="row mt-5">
+                                {/* article list */}
+                                {articles.map(article => (
+                                    <div
+                                        key={article._id}
+                                        className="col-12 mt-3"
+                                    >
+                                        <div className="card bg-dark d-flex flex-row">
+                                            <img
+                                                src={`${globalUrl.host}/images/${article.image}`}
+                                                alt=""
+                                                className="w-50"
+                                                style={{
+                                                    height: "300px",
+                                                    objectFit: "cover",
+                                                }}
+                                            />
+                                            <div className="ml-3 p-3 d-flex flex-column justify-content-between">
+                                                <h3 className="d-flex text-white">
+                                                    {article.title}
+                                                </h3>
+                                                <div className="d-flex justify-content-between">
+                                                    <div className="d-flex">
+                                                        <span className="text-success mr-2">
+                                                            <i className="bx bx-happy-heart-eyes" />
+                                                        </span>
+                                                        <div>
+                                                            {article.view_count}
+                                                        </div>
+                                                    </div>
+                                                    <div className="d-flex">
+                                                        <span className="text-success mr-2">
+                                                            <i className="bx bx-heart text-danger" />
+                                                        </span>
+                                                        <div>
+                                                            {article.like_count}
+                                                        </div>
+                                                    </div>
+                                                    <div className="d-flex">
+                                                        <span className="text-success mr-2">
+                                                            <i className="bx bx-message-square-dots text-primary" />
+                                                        </span>
+                                                        <div>
+                                                            {
+                                                                article.comment_count
+                                                            }
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div className="d-flex">
+                                                    <p>
+                                                        {convertHtmlToFirst10Words(
+                                                            article.description
+                                                        )}
+                                                        ...
+                                                    </p>
+                                                </div>
+                                                <div className="d-flex justify-content-end">
+                                                    <Link
+                                                        to={`/article/${article._id}`}
+                                                        className="btn btn-outline-primary btn-dark d-flex justify-content-center align-items-center"
+                                                        style={{
+                                                            width: "40px",
+                                                            height: "40px",
+                                                        }}
+                                                    >
+                                                        <span className="text-grey">
+                                                            <i className="bx bx-show"></i>
+                                                        </span>
+                                                    </Link>
+                                                    <Link
+                                                        to={`/edit/article/${article._id}`}
+                                                        className="btn btn-outline-primary btn-dark d-flex justify-content-center align-items-center"
+                                                        style={{
+                                                            width: "40px",
+                                                            height: "40px",
+                                                        }}
+                                                    >
+                                                        <span className="text-grey">
+                                                            <i className="bx bx-edit"></i>
+                                                        </span>
+                                                    </Link>
+                                                    <button
+                                                        onClick={() => {
+                                                            removeArticle(
+                                                                article._id
+                                                            );
+                                                        }}
+                                                        className="btn btn-outline-primary btn-dark d-flex justify-content-center align-items-center"
+                                                        style={{
+                                                            width: "40px",
+                                                            height: "40px",
+                                                        }}
+                                                    >
+                                                        <span className="text-grey">
+                                                            <i className="bx bx-trash"></i>
+                                                        </span>
+                                                    </button>
                                                 </div>
                                             </div>
                                         </div>
-                                        <div className="d-flex">
-                                            <p>
-                                                {convertHtmlToFirst10Words(
-                                                    article.description
-                                                )}
-                                                ...
-                                            </p>
-                                        </div>
-                                        <div className="d-flex justify-content-end">
-                                            <Link
-                                                to={`/article/${article._id}`}
-                                                className="btn btn-outline-primary btn-dark d-flex justify-content-center align-items-center"
-                                                style={{
-                                                    width: "40px",
-                                                    height: "40px",
-                                                }}
-                                            >
-                                                <span className="text-grey">
-                                                    <i className="bx bx-show"></i>
-                                                </span>
-                                            </Link>
-                                            <Link
-                                                to={`/edit/article/${article._id}`}
-                                                className="btn btn-outline-primary btn-dark d-flex justify-content-center align-items-center"
-                                                style={{
-                                                    width: "40px",
-                                                    height: "40px",
-                                                }}
-                                            >
-                                                <span className="text-grey">
-                                                    <i className="bx bx-edit"></i>
-                                                </span>
-                                            </Link>
-                                            <button
-                                                onClick={() => {
-                                                    removeArticle(article._id);
-                                                }}
-                                                className="btn btn-outline-primary btn-dark d-flex justify-content-center align-items-center"
-                                                style={{
-                                                    width: "40px",
-                                                    height: "40px",
-                                                }}
-                                            >
-                                                <span className="text-grey">
-                                                    <i className="bx bx-trash"></i>
-                                                </span>
-                                            </button>
-                                        </div>
                                     </div>
+                                ))}
+                            </div>
+                            {/* load more button */}
+                            <div className="col-12 mt-5">
+                                <div
+                                    className={`d-flex justify-content-${
+                                        page < totalPage ? `end` : `between`
+                                    }`}
+                                >
+                                    {page > 1 && (
+                                        <button
+                                            className="btn btn-primary"
+                                            onClick={() => setPage(page - 1)}
+                                        >
+                                            Back
+                                        </button>
+                                    )}
+
+                                    {!totalPage && (
+                                        <button
+                                            disabled={
+                                                page >= totalPage ? true : false
+                                            }
+                                            className="btn btn-primary"
+                                            onClick={() => setPage(page + 1)}
+                                        >
+                                            Load More
+                                        </button>
+                                    )}
                                 </div>
                             </div>
-                        ))}
-                    </div>
-                    {/* load more button */}
-                    <div className="col-12 mt-5">
-                        <div
-                            className={`d-flex justify-content-${
-                                page < totalPage ? `end` : `between`
-                            }`}
-                        >
-                            {page > 1 && (
-                                <button
-                                    className="btn btn-primary"
-                                    onClick={() => setPage(page - 1)}
-                                >
-                                    Back
-                                </button>
-                            )}
-
-                            <button
-                                disabled={page >= totalPage ? true : false}
-                                className="btn btn-primary"
-                                onClick={() => setPage(page + 1)}
-                            >
-                                Load More
-                            </button>
-                        </div>
-                    </div>
+                        </>
+                    ) : (
+                        <h5 className="d-flex justify-content-center mt-5">
+                            No Article Found...
+                        </h5>
+                    )}
                 </>
             )}
         </>

@@ -14,7 +14,7 @@ const SingleArticlePage = () => {
     const [isLoading, setIsLoading] = useState(true);
     const navigate = useNavigate();
     const { id } = useParams();
-    const { auth, authUser } = useContext(AuthContext);
+    const { authUser } = useContext(AuthContext);
 
     const [comment, setComment] = useState("");
     const [commentLoader, setCommentLoader] = useState(false);
@@ -73,13 +73,12 @@ const SingleArticlePage = () => {
 
     useEffect(() => {
         getSingleArticle();
+        /* eslint-disable-next-line */
     }, [id, commentSubmitted]);
 
     useEffect(() => {
         setCommentSubmitted(false);
     }, [article]);
-
-    console.log(article);
 
     return (
         <Master>
@@ -233,28 +232,32 @@ const SingleArticlePage = () => {
                                 </div>
                             </form>
                             {/* Comment Lists */}
-                            <div className="col-12 my-3">
-                                <h5 className="text-primary">Comment Lists:</h5>
-                                {/* Comment Loops */}
-                                {comments.map(comment => (
-                                    <div
-                                        key={comment._id}
-                                        className="mb-3 p-3 border border-dark rounded"
-                                    >
-                                        <div className="d-flex justify-content-between align-items-center">
-                                            <h6 className="">
-                                                {comment.user.name}
-                                            </h6>
-                                            <small className="text-muted">
-                                                {moment(
-                                                    comment.createdAt
-                                                ).fromNow()}
-                                            </small>
+                            {comments.length != 0 && (
+                                <div className="col-12 my-3">
+                                    <h5 className="text-primary">
+                                        Comment Lists:
+                                    </h5>
+                                    {/* Comment Loops */}
+                                    {comments.map(comment => (
+                                        <div
+                                            key={comment._id}
+                                            className="mb-3 p-3 border border-dark rounded"
+                                        >
+                                            <div className="d-flex justify-content-between align-items-center">
+                                                <h6 className="">
+                                                    {comment.user.name}
+                                                </h6>
+                                                <small className="text-muted">
+                                                    {moment(
+                                                        comment.createdAt
+                                                    ).fromNow()}
+                                                </small>
+                                            </div>
+                                            <p>{comment.comment}</p>
                                         </div>
-                                        <p>{comment.comment}</p>
-                                    </div>
-                                ))}
-                            </div>
+                                    ))}
+                                </div>
+                            )}
                         </div>
                     </div>
                 </div>
